@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-import base_seo
+from src.process import base_seo
 
 
 class ProcessSEO(base_seo.BaseSEO):
