@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://probook.click/"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="revisit-after" content="1 days"/>
+    <meta name='copyright' content='Phan Anh Tu'>
+    <meta name="geo.region" content="VN"/>
+    <meta name="geo.placename" content="Hung Yen"/>
+    <meta name="google" content="nositelinkssearchbox"/>
+    <link rel="icon" href="/media/logo.png" type="image/x-icon"/>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="ProBook - My Project"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content="/media/logo.png"/>
+    <meta property="og:url" content="https://probook.click"/>
+    <meta property="og:site_name" content="AppBook"/>
+    <link href="/media/favicon.ico" rel="icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "name": "AppBook - My Project",
+            "alternateName": "Trang về thông tin của tôi",
+            "url": "https://probook.click/"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "Probook",
+            "url": "https://probook.click",
+            "logo": "media/logo.png",
+            "email": "mailto: phantu279999@gmail.com",
+            "sameAs": [
+                "https://twitter.com/",
+                "https://www.facebook.com/profile.php?id=61554769718570&locale=vi_VN"
+            ],
+            "contactPoint": [
+                {
+                    "@type": "ContactPoint",
+                    "telephone": "(84) 985 074 766",
+                    "contactType": "customer service"
+                }
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Thanh Xuân",
+                "addressRegion": "Hà Nội",
+                "addressCountry": "Việt Nam",
+                "postalCode": "100000",
+                "streetAddress": "Address"
+            }
+        }
+    </script>
+
+    <title>{% block title %}
+
+    {% endblock %}</title>
+    <style>
+        {% block style %}
+
+        {% endblock %}
+    </style>
+</head>
+<body>
+{% include 'partials/_header.html' %}
+{% block content %}
+{% endblock %}
+{% include 'partials/_footer.html' %}
+
+</body>
+</html>

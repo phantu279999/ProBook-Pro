@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+    img {
+        width: 100%;
+        height: auto;
+    }
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Home</h1>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-12">
+                <img src="/media/1690.jpg">
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="your_domain" placeholder="Write your domain here">
+                    <button class="btn btn-primary" type="submit">
+                        Check
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
