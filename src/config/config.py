@@ -6,6 +6,7 @@ seo_tips = {
 	"url": "",
 	"canonical": "",
 	"meta_keywords": "",
+	"revisit_after": "",
 	"headings": "",
 	"images": "",
 	"frames": "",

@@ -15,13 +15,13 @@ class ProcessSEO(base_seo.BaseSEO):
 		base_seo.BaseSEO.__init__(self)
 
 	def process_link(self, link):
-		self.process_single_link(link)
+		return self.process_single_link(link)
 
 	def process_single_link(self, link):
 		try:
 			reponse = requests.get(link)
 			if reponse.status_code == 200:
-				return self.process_html(reponse.text)
+				return self.process_html(reponse.text, link)
 		except:
 			# print(traceback.format_exc())
 			pass
@@ -30,4 +30,4 @@ class ProcessSEO(base_seo.BaseSEO):
 
 if __name__ == '__main__':
 	process = ProcessSEO()
-	process.process_link("https://kenh14.vn/")
+	process.process_link("https://thethaovanhoa.vn")

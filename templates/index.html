@@ -2,9 +2,24 @@
 
 
 {% block style %}
+    h1 {
+    color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
     img {
-        width: 100%;
-        height: auto;
+    width: 100%;
+    height: auto;
+    }
+    input {
+    width: 100%;
     }
 {% endblock %}
 
@@ -14,8 +29,30 @@
 
 {% block content %}
     <div class="container">
-        <h1>Home</h1>
         <div class="row">
+            <h1>HELLO!</h1>
+            <h5>I'm a Python Developer</h5>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-12" style="background-color: orange; padding: 10px; border-radius: 10px;">
+                <p><b>Name: Phan Anh Tú</b></p>
+                <p><b>Birthday: 03/10/1999</b></p>
+                <p><b>Role: Python Developer(Software Engineer)</b></p>
+                <p><b>Email: phantu279999@gmail.com</b></p>
+                <p><b>Phone: (+84) 398397949</b></p>
+                <p><b>Social: </b>
+                    <a href="https://www.facebook.com/phantu.27310/"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/phantu279999/"><i class="fa-brands fa-linkedin"></i></a>
+                </p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <img src="/media/1690.jpg" style="border-radius: 10px;" alt="avatar-profile">
+            </div>
+        </div>
+        <h2 style="background-color: cornflowerblue; width: 100%; padding: 10px; margin: 10px;">CHECK SEO</h2>
+        <hr>
+        <div class="row" style="background-color: cornflowerblue; border-radius: 10px; padding: 20px;">
             <div class="col-lg-6 col-md-6 col-12">
                 <img src="/media/1690.jpg">
             </div>
@@ -24,10 +61,32 @@
                     {% csrf_token %}
                     <input type="text" name="your_domain" placeholder="Write your domain here">
                     <button class="btn btn-primary" type="submit">
-                        Check
+                        <i class="fa-solid fa-magnifying-glass"></i> Check
                     </button>
                 </form>
             </div>
+            <ul class="list-group" style="margin: 20px;">
+                {% if res %}
+                    {% for key, val in res.items %}
+                        <li class="list-group-item" style="padding: 5px;">
+                            <div class="row">
+                                <div class="col-lg-3 col-12">
+                                    {% if val.status %}
+                                        <i class="fa-solid fa-check" style="color: green"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-circle-exclamation" style="color: red"></i>
+                                    {% endif %}
+                                    <b>{{ val.name }}</b>
+                                </div>
+                                <div class="col-lg-9 col-12">
+                                    {{ val.msg }}<br>
+                                    {{ val.data }}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}
