@@ -78,16 +78,22 @@
 
     {% endblock %}</title>
     <style>
+        body {
+            overflow-x: hidden;
+        }
         {% block style %}
 
         {% endblock %}
     </style>
+    {% block head %}
+
+    {% endblock %}
 </head>
 <body>
 {% include 'partials/_header.html' %}
 {% block content %}
 {% endblock %}
 {% include 'partials/_footer.html' %}
-
+<script src="/static/js/index.js"></script>
 </body>
 </html>

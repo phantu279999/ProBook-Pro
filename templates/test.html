@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .box {
+            width: 300px;
+            overflow: hidden;
+            line-height: 1.5em; /* Chiều cao của mỗi dòng */
+            max-height: calc(1.5em * 4); /* Chỉ hiển thị 4 dòng */
+            transition: max-height 0.3s ease;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .box.expanded {
+            max-height: 500px; /* Chiều cao tối đa khi mở rộng */
+        }
+    </style>
+</head>
+<body>
+
+<div class="box" id="textBox">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod, nisl sit amet consequat interdum,
+    dui orci bibendum massa, a semper magna magna ut velit. Vivamus viverra euismod risus, non convallis magna
+    consectetur et. Integer non nisi lacus. Sed sit amet sollicitudin erat, non efficitur erat. Duis vehicula
+    ultrices erat, in volutpat lorem tempor vitae. Sed vehicula arcu ac tortor consequat, non suscipit erat
+    sollicitudin. Nullam vel tincidunt libero. Nulla facilisi. Cras vel metus id turpis vehicula dapibus. Cras
+    in metus non nunc egestas sagittis. Maecenas at dolor ut eros varius accumsan sit amet ut justo. Nullam
+    facilisis tristique odio, id dictum odio congue eget. Sed tempor metus vitae orci pharetra volutpat. Duis
+    euismod consectetur nisl non aliquet. Ut pharetra auctor lectus nec tincidunt.
+</div>
+<button onclick="toggleExpand()">Expand/Collapse</button>
+
+<script src="script.js"></script>
+<script>
+    function toggleExpand() {
+        var box = document.getElementById("textBox");
+        box.classList.toggle("expanded");
+    }
+</script>
+</body>
+</html>

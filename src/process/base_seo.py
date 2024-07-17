@@ -170,6 +170,7 @@ class BaseSEO:
 	def process_headings(self, soup):
 		result = {}
 		result['name'] = 'Headings'
+		result['type_data'] = 'dict'
 		result['tip'] = self.seo_tips['headings']
 		list_h1 = [it.text for it in soup.find_all("h1")]
 		list_h2 = [it.text for it in soup.find_all("h2")]
@@ -198,6 +199,8 @@ class BaseSEO:
 	def process_images(self, soup):
 		result = {}
 		result['name'] = 'Images'
+		result['type_msg'] = 'list'
+		result['type_data'] = 'list'
 		result['data'] = []
 		result['tip'] = self.seo_tips['images']
 		list_msg = []
@@ -252,6 +255,7 @@ class BaseSEO:
 	def process_open_graph(self, soup):
 		result = {}
 		result['name'] = 'Open Graph'
+		result['type_data'] = 'list'
 		result['tip'] = self.seo_tips['open_graph']
 
 		open_graph = [
@@ -302,18 +306,20 @@ class BaseSEO:
 		result['tip'] = self.seo_tips['viewport']
 
 		check = soup.find('meta', attrs={'name': 'viewport'})
+		print("=======", check)
 		if not check:
 			result['msg'] = "Your site has not tag meta viewport"
 			result['status'] = False
+			result['data'] = ''
 		else:
 			content = check.get("content", "")
-			if content:
+			if not content:
 				result['msg'] = "Your tag viewport has not attribute content"
 				result['status'] = False
 			else:
 				result['msg'] = "Your tag viewport is legal"
 				result['status'] = True
-		result['data'] = check
+			result['data'] = content
 		return result
 
 	def process_robots_txt(self, domain):
@@ -399,6 +405,7 @@ class BaseSEO:
 		result = {}
 		result['name'] = 'External Link'
 		result['msg'] = 'Passed'
+		result['type_data'] = 'list'
 		result['status'] = True
 		links = soup.body.find_all("a", href=True)
 

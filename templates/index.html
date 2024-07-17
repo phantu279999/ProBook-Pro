@@ -1,26 +1,11 @@
 {% extends 'base.html' %}
 
 
-{% block style %}
-    h1 {
-    color: orange;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    }
-    h5 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    }
+{% block head %}
+    <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
 
-    img {
-    width: 100%;
-    height: auto;
-    }
-    input {
-    width: 100%;
-    }
+{% block style %}
 {% endblock %}
 
 {% block title %}
@@ -34,7 +19,7 @@
             <h5>I'm a Python Developer</h5>
         </div>
         <hr>
-        <div class="row">
+        <div class="row" style="background-color: lightgray; padding: 10px; border-radius: 10px;">
             <div class="col-lg-6 col-md-6 col-12" style="background-color: orange; padding: 10px; border-radius: 10px;">
                 <p><b>Name: Phan Anh Tú</b></p>
                 <p><b>Birthday: 03/10/1999</b></p>
@@ -47,11 +32,15 @@
                 </p>
             </div>
             <div class="col-lg-6 col-md-6 col-12">
-                <img src="/media/1690.jpg" style="border-radius: 10px;" alt="avatar-profile">
+                <a href="#" style="display: flex; justify-content: center; align-items: center">
+                    <img src="/media/myself.jpg"
+                         style="border-radius: 50%; width:250px; height:250px;"
+                         alt="avatar-profile">
+                </a>
+                <p>Xin chào mọi người! Mình là Phan Anh Tú và mình là một lập trình viên Python</p>
             </div>
         </div>
-        <h2 style="background-color: cornflowerblue; width: 100%; padding: 10px; margin: 10px;">CHECK SEO</h2>
-        <hr>
+        <h2 style="margin: 20px;">Check SEO</h2>
         <div class="row" style="background-color: cornflowerblue; border-radius: 10px; padding: 20px;">
             <div class="col-lg-6 col-md-6 col-12">
                 <img src="/media/1690.jpg">
@@ -64,6 +53,8 @@
                         <i class="fa-solid fa-magnifying-glass"></i> Check
                     </button>
                 </form>
+                <p>Công cụ có chức năng kiểm tra đơn giản SEO của một trang web, nó có thể kiểm tra nhiều
+                    loại trang web khác nhau</p>
             </div>
             <ul class="list-group" style="margin: 20px;">
                 {% if res %}
@@ -76,11 +67,48 @@
                                     {% else %}
                                         <i class="fa-solid fa-circle-exclamation" style="color: red"></i>
                                     {% endif %}
-                                    <b>{{ val.name }}</b>
+                                    <b style="font-size: 16px;">{{ val.name }}</b>
                                 </div>
                                 <div class="col-lg-9 col-12">
-                                    {{ val.msg }}<br>
-                                    {{ val.data }}
+                                    {% if val.type_msg %}
+                                        {% for it in val.msg %}
+                                            <b>{{ it }}</b>
+                                        {% endfor %}
+                                    {% else %}
+                                        <b>{{ val.msg }}</b>
+                                    {% endif %}
+                                    <br>
+                                    {% if val.type_data == 'list' %}
+                                        <div class="box">
+                                            <div class="vertical-line"></div>
+                                            <div class="content box-text" id="textBox-{{ key }}">
+                                                {% for it in val.data %}
+                                                    <p style="text-align: justify">{{ it }}</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <button onclick="toggleExpand('{{ key }}')">Expand/Collapse</button>
+                                    {% elif val.type_data == 'dict' %}
+                                        <div class="box">
+                                            <div class="vertical-line"></div>
+                                            <div class="content box-text" id="textBox-{{ key }}">
+                                                {% for k, v in val.data.items %}
+                                                    <b>{{ k }}</b>
+                                                    {% for it in v %}
+                                                        <p style="text-align: justify">{{ it }}</p>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <button onclick="toggleExpand('{{ key }}')">Expand/Collapse</button>
+                                    {% else %}
+                                        <div class="box">
+                                            <div class="vertical-line"></div>
+                                            <div class="content">
+                                                <p>{{ val.data }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </li>
