@@ -306,7 +306,6 @@ class BaseSEO:
 		result['tip'] = self.seo_tips['viewport']
 
 		check = soup.find('meta', attrs={'name': 'viewport'})
-		print("=======", check)
 		if not check:
 			result['msg'] = "Your site has not tag meta viewport"
 			result['status'] = False

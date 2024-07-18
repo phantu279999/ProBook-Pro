@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+{% endblock %}
+
+{% block style %}
+    form {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #cccccc;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    }
+    input {
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    }
+    button {
+    border-radius: 10px;
+    background-color: yellow;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    }
+{% endblock %}
+
+{% block title %}
+    Crawl Video
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Crawl Video</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="domain_channel"
+                   placeholder="Viết link channel youtube mà bạn muốn lấy dữ liệu">
+            <button type="submit">Crawl Channel Video</button>
+        </form>
+
+        <div style="background-color: #cccccc; padding: 20px; border-radius: 10px;">
+            {% if list_video %}
+                <p>Tổng cộng: {{ length }} Video</p>
+                <button id="downloadButton">Download Data</button>
+
+                {% for it in list_video %}
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <img src="{{ it.Thumb }}" alt="thumb-video">
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-12" style="margin-top: 5px;">
+                            <a href="{{ it.Link }}" target="_blank"><p>{{ it.TitleVideo }}</p></a>
+                            <p>{{ it.Link }}</p>
+                            <p>{{ it.View }}</p>
+                            <p>{{ it.Date }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
