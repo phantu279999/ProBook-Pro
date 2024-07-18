@@ -17,6 +17,8 @@ class GetVideoYoutube:
 		self.domain_youtube = "https://www.youtube.com"
 
 	def app_run(self, domain):
+		if not domain.endswith('videos'):
+			domain = domain.strip("/") + '/videos'
 		self.get_channel(domain)
 		self.scroll_to_end_page()
 		list_video = self.get_video()

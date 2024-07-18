@@ -25,6 +25,11 @@
     padding: 10px;
     margin-bottom: 10px;
     }
+
+    img {
+    width:100%;
+    height: auto;
+    }
 {% endblock %}
 
 {% block title %}
@@ -49,7 +54,11 @@
                 {% for it in list_video %}
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-12">
-                            <img src="{{ it.Thumb }}" alt="thumb-video">
+                            {% if it.Thumb %}
+                                <img src="{{ it.Thumb }}" alt="thumb-video">
+                            {% else %}
+                                <img src="/media/cau-hoi-voi-how.jpg" alt="thumb-video">
+                            {% endif %}
                         </div>
                         <div class="col-lg-8 col-md-6 col-12" style="margin-top: 5px;">
                             <a href="{{ it.Link }}" target="_blank"><p>{{ it.TitleVideo }}</p></a>
