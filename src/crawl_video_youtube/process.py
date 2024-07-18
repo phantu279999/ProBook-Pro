@@ -15,6 +15,13 @@ class GetVideoYoutube:
 	def __init__(self):
 		self._driver = custome_chrome_headless()
 		self.domain_youtube = "https://www.youtube.com"
+		self.number_scroll = {
+			1: 90,
+			2: 120,
+			3: 150,
+			4: 180,
+			5: 210,
+		}
 
 	def app_run(self, domain):
 		if not domain.endswith('videos'):
@@ -30,7 +37,6 @@ class GetVideoYoutube:
 	def scroll_to_end_page(self):
 		base_source = ""
 		source_code = self._driver.page_source
-
 		c = 0
 		while len(base_source) != len(source_code):
 			base_source = source_code
