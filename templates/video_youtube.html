@@ -20,7 +20,8 @@
     }
     button {
     border-radius: 10px;
-    background-color: yellow;
+    color: white;
+    background-color: red;
     border: none;
     padding: 10px;
     margin-bottom: 10px;
@@ -38,19 +39,31 @@
 
 {% block content %}
     <div class="container">
-        <h1>Crawl Video</h1>
+        <h1>Crawl Video <i class="fa-brands fa-youtube" style="color: #ff0000;"></i></h1>
         <form method="post">
             {% csrf_token %}
+            <p>
+                <b>Công cụ lấy video Youtube từ URL Channel</b>
+            </p>
             <input type="text" name="domain_channel"
                    placeholder="Viết link channel youtube mà bạn muốn lấy dữ liệu">
-            <button type="submit">Crawl Channel Video</button>
+            <button type="submit"><b>Crawl Channel Video</b></button>
+            <p>Công cụ này giúp bạn dễ dàng lấy video từ bất kỳ kênh Youtube nào chỉ bằng cách cung cấp URL của
+                kênh.</p>
+            <p><b>Lưu ý:</b></p>
+            <ul>
+                <li>Sử dụng công cụ này một cách có trách nhiệm và tuân thủ các điều khoản dịch vụ của Youtube.</li>
+                <li>Tải video chỉ dành cho mục đích sử dụng cá nhân, không vi phạm bản quyền.</li>
+                <li>Công cụ này có thể thay đổi hoặc bị hạn chế theo thời gian.</li>
+            </ul>
         </form>
 
         <div style="background-color: #cccccc; padding: 20px; border-radius: 10px;">
             {% if list_video %}
                 <p>Tổng cộng: {{ length }} Video</p>
-                <button id="downloadButton">Download Data</button>
-
+                {% if status %}
+                    <button id="downloadButton">Download Data</button>
+                {% endif %}
                 {% for it in list_video %}
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-12">

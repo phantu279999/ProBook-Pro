@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block style %}
+
 {% endblock %}
 
 {% block title %}
@@ -19,42 +20,49 @@
             <h5>I'm a Python Developer</h5>
         </div>
         <hr>
-{#        <div class="row" style="background-color: lightgray; padding: 10px; border-radius: 10px;">#}
-{#            <div class="col-lg-6 col-md-6 col-12" style="background-color: orange; padding: 10px; border-radius: 10px;">#}
-{#                <p><b>Name: Phan Anh Tú</b></p>#}
-{#                <p><b>Birthday: 03/10/1999</b></p>#}
-{#                <p><b>Role: Python Developer(Software Engineer)</b></p>#}
-{#                <p><b>Email: phantu279999@gmail.com</b></p>#}
-{#                <p><b>Phone: (+84) 398397949</b></p>#}
-{#                <p><b>Social: </b>#}
-{#                    <a href="https://www.facebook.com/phantu.27310/"><i class="fa-brands fa-facebook"></i></a>#}
-{#                    <a href="https://www.linkedin.com/in/phantu279999/"><i class="fa-brands fa-linkedin"></i></a>#}
-{#                </p>#}
-{#            </div>#}
-{#            <div class="col-lg-6 col-md-6 col-12">#}
-{#                <a href="#" style="display: flex; justify-content: center; align-items: center">#}
-{#                    <img src="/media/myself.jpg"#}
-{#                         style="border-radius: 50%; width:250px; height:250px;"#}
-{#                         alt="avatar-profile">#}
-{#                </a>#}
-{#                <p></p>#}
-{#            </div>#}
-{#        </div>#}
-        <h2 style="margin: 20px;">Check SEO</h2>
+        {#        <div class="row" style="background-color: lightgray; padding: 10px; border-radius: 10px;">#}
+        {#            <div class="col-lg-6 col-md-6 col-12" style="background-color: orange; padding: 10px; border-radius: 10px;">#}
+        {#                <p><b>Name: Phan Anh Tú</b></p>#}
+        {#                <p><b>Birthday: 03/10/1999</b></p>#}
+        {#                <p><b>Role: Python Developer(Software Engineer)</b></p>#}
+        {#                <p><b>Email: phantu279999@gmail.com</b></p>#}
+        {#                <p><b>Phone: (+84) 398397949</b></p>#}
+        {#                <p><b>Social: </b>#}
+        {#                    <a href="https://www.facebook.com/phantu.27310/"><i class="fa-brands fa-facebook"></i></a>#}
+        {#                    <a href="https://www.linkedin.com/in/phantu279999/"><i class="fa-brands fa-linkedin"></i></a>#}
+        {#                </p>#}
+        {#            </div>#}
+        {#            <div class="col-lg-6 col-md-6 col-12">#}
+        {#                <a href="#" style="display: flex; justify-content: center; align-items: center">#}
+        {#                    <img src="/media/myself.jpg"#}
+        {#                         style="border-radius: 50%; width:250px; height:250px;"#}
+        {#                         alt="avatar-profile">#}
+        {#                </a>#}
+        {#                <p></p>#}
+        {#            </div>#}
+        {#        </div>#}
+        <div style="left: 0;top: 0;bottom: 0; width: 7px; background-color: royalblue;">
+            <h2 style="margin: 20px;">Check SEO</h2>
+        </div>
         <div class="row" style="background-color: cornflowerblue; border-radius: 10px; padding: 20px;">
             <div class="col-lg-6 col-md-6 col-12">
-                <img src="/media/1690.jpg">
+                <img src="/media/1690.jpg" alt="image-check-seo">
             </div>
             <div class="col-lg-6 col-md-6 col-12">
+                <p><b>Đưa website của bạn lên trang nhất Google với Site Checker!</b></p>
                 <form method="post">
                     {% csrf_token %}
-                    <input type="text" name="your_domain" placeholder="Write your domain here">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i> Check
+                    <input type="text" name="your_domain"
+                           placeholder="Viết link mà bạn muốn kiểm tra SEO ở đây...">
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i> <b>Kiểm tra</b>
                     </button>
                 </form>
-                <p>Công cụ có chức năng kiểm tra đơn giản SEO của một trang web, nó có thể kiểm tra nhiều
-                    loại trang web khác nhau</p>
+                <p>Công cụ kiểm tra nhanh SEO miễn phí của chúng tôi giúp bạn phân tích mọi yếu tố SEO quan trọng và
+                    cung cấp
+                    hướng dẫn chi tiết để cải thiện thứ hạng website của bạn. Dễ sử dụng, hoạt động hiệu quả cho mọi
+                    loại trang web và hoàn toàn miễn phí</p>
+                <p><b>Bắt đầu kiểm tra miễn phí ngay!</b></p>
             </div>
             <ul class="list-group" style="margin: 20px;">
                 {% if res %}
@@ -116,5 +124,17 @@
                 {% endif %}
             </ul>
         </div>
+        <hr>
+        <div style="left: 0;top: 0;bottom: 0; width: 7px; background-color: royalblue;">
+            <a href="{% url 'video_youtube' %}"><h2 style="margin: 20px;">CRAWL VIDEO YOTUBE</h2></a>
+        </div>
+        <div class="row">
+            <form method="post" style="background-color: cornflowerblue; border-radius: 10px; padding: 10px;">
+                {% csrf_token %}
+                <input type="text" placeholder="Enter link channel youtube" name="channel_youtube">
+                <button type="submit">Kiểm tra</button>
+            </form>
+        </div>
+    </div>
     </div>
 {% endblock %}
