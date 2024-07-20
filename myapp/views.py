@@ -46,6 +46,7 @@ def crawl_video_youtube(request):
 
 def extract_format(request):
 	context = {}
+
 	return render(request, 'extract_format.html', context=context)
 
 
