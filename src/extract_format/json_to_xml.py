@@ -1,4 +1,5 @@
 import json
+import traceback
 from xml.etree import ElementTree as ET
 
 
@@ -25,13 +26,31 @@ def json_to_xml_recursive(data, parent_element):
 		parent_element.text = str(data)
 
 
-# Example usage
-json_file = "your_json_file.json"
-xml_data = json_to_xml(json_file)
+def extract_json_to_xml(text_json):
+	try:
+		# Example usage
+		with open("media/store_data/input.json", "w") as f:
+			f.write(text_json)
+		json_file = "media/store_data/input.json"
+		xml_data = json_to_xml(json_file)
 
-# Print or save the XML data
-print(xml_data)
+		# You can also save it to a file
+		with open("media/store_data/output.xml", "wb") as f:
+			f.write(xml_data)
+		return True
+	except:
+		print(traceback.format_exc())
+		return False
 
-# You can also save it to a file
-with open("output.xml", "wb") as f:
-	f.write(xml_data)
+
+if __name__ == '__main__':
+	# Example usage
+	json_file = "your_json_file.json"
+	xml_data = json_to_xml(json_file)
+
+	# Print or save the XML data
+	print(xml_data)
+
+	# You can also save it to a file
+	with open("output.xml", "wb") as f:
+		f.write(xml_data)

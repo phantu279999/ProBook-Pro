@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block style %}
+    .msg-error {
+        background-color: #ff8282;
+        color: white;
+        padding: 5px;
+        border-radius: 10px;
+    }
 {% endblock %}
 
 {% block title %}
@@ -12,15 +18,35 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Extract Data</h1>
-    <form method="post">
-        {% csrf_token %}
-        <textarea name="content_format" rows="10" cols="40"></textarea><br>
-        <input type="radio" id="html" name="fav_language" value="HTML">
-        <label for="html">JSON</label><br>
-        <input type="radio" id="css" name="fav_language" value="CSS">
-        <label for="css">XML</label><br>
+    <div class="container">
+        <h1>Extract Data</h1>
+        {% if message_error %}
+            <p class="msg-error">{{ message_error }}</p>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <textarea name="content_format" rows="10" cols="70"></textarea><br>
+                </div>
+                <div class="col-lg-3 col-12">
+                    <h3>Input</h3>
+                    <input type="radio" id="json" name="input_format" value="JSON">
+                    <label for="json">JSON</label><br>
+                    <input type="radio" id="xml" name="input_format" value="XML">
+                    <label for="xml">XML</label><br>
 
-        <button type="submit">Extract</button>
-    </form>
+                </div>
+                <div class="col-lg-3 col-12">
+                    <h3>Output</h3>
+                    <input type="radio" id="json" name="output_format" value="JSON">
+                    <label for="json">JSON</label><br>
+                    <input type="radio" id="xml" name="output_format" value="XML">
+                    <label for="xml">XML</label><br>
+
+                </div>
+            </div>
+            <button type="submit">Extract</button>
+        </form>
+    </div>
 {% endblock %}
