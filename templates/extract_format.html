@@ -13,4 +13,14 @@
 
 {% block content %}
     <h1>Extract Data</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="content_format" rows="10" cols="40"></textarea><br>
+        <input type="radio" id="html" name="fav_language" value="HTML">
+        <label for="html">JSON</label><br>
+        <input type="radio" id="css" name="fav_language" value="CSS">
+        <label for="css">XML</label><br>
+
+        <button type="submit">Extract</button>
+    </form>
 {% endblock %}

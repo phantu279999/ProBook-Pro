@@ -46,7 +46,8 @@ def crawl_video_youtube(request):
 
 def extract_format(request):
 	context = {}
-
+	if request.method == 'POST':
+		content_format = request.POST['content_format']
 	return render(request, 'extract_format.html', context=context)
 
 
