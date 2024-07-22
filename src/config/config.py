@@ -1,5 +1,3 @@
-
-
 seo_tips = {
 	"title": "",
 	"meta_description": "",
@@ -19,4 +17,12 @@ seo_tips = {
 	"language": "",
 	"doctype": "Specifying a document type assists web browsers in displaying your content correctly",
 	"favicon": "",
+}
+
+config_redis = {
+	"host": "127.0.0.1",
+	"port": 6379,
+	"db": 2,
+	"username": "",
+	"password": ""
 }

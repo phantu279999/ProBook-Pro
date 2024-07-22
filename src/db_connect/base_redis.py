@@ -1,5 +1,6 @@
 import redis
 
+from src.config.config import config_redis
 
 class BaseRedis:
 
@@ -90,13 +91,6 @@ class BaseRedis:
 
 
 if __name__ == '__main__':
-	config = {
-		"host": "127.0.0.1",
-		"port": 6379,
-		"db": 2,
-		"username": "",
-		"password": ""
-	}
-	rd = BaseRedis(config)
+	rd = BaseRedis(config_redis)
 
 	print(rd.get_length_list("address"))
