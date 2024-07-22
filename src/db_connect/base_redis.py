@@ -1,6 +1,7 @@
 import redis
 
 from src.config.config import config_redis
+from src.common.common import convert_datetime_to_float
 
 class BaseRedis:
 
@@ -89,8 +90,27 @@ class BaseRedis:
 	def remove_list(self, key, value, count=1):
 		return self._db.lrem(name=key, count=count, value=value)
 
+	# =============== EVENT LIST ========================
+	def add_sorted_set(self, key, value):
+		if not isinstance(value, dict):
+			return "Please enter param value is dict value:score"
+		return self._db.zadd(key, value)
+
+	def range_sorted_set(self, key, start=0, end=-1, with_scores=False):
+		return self._db.zrange(name=key, start=start, end=end, withscores=with_scores)
+
+	def range_by_score_sorted_set(self, key, from_score, to_score):
+		return self._db.zrangebyscore(key, from_score, to_score)
+
+	def remove_sorted_set(self, key, value):
+		return self._db.zrem(key, value)
+
+	def diff_two_sorted_sets(self, set1, set2, with_scores=False):
+		return self._db.zdiff([set1, set2], withscores=with_scores)
+
+	def length_sorted_set(self, key):
+		return self._db.zcount(key, "-inf", "+inf")
+
 
 if __name__ == '__main__':
 	rd = BaseRedis(config_redis)
-
-	print(rd.get_length_list("address"))
