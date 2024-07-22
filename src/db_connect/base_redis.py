@@ -1,3 +1,5 @@
+import json
+
 import redis
 
 from src.config.config import config_redis
@@ -90,7 +92,7 @@ class BaseRedis:
 	def remove_list(self, key, value, count=1):
 		return self._db.lrem(name=key, count=count, value=value)
 
-	# =============== EVENT LIST ========================
+	# =============== EVENT SORTED SET ========================
 	def add_sorted_set(self, key, value):
 		if not isinstance(value, dict):
 			return "Please enter param value is dict value:score"
@@ -111,6 +113,26 @@ class BaseRedis:
 	def length_sorted_set(self, key):
 		return self._db.zcount(key, "-inf", "+inf")
 
+	# =============== EVENT HASH ========================
+	def set_hash(self, key, field, value):
+		return self._db.hset(key, field, value)
+
+	def get_all_hash(self, key):
+		return self._db.hgetall(key)
+
+	def get_values_hash(self, key):
+		return self._db.hvals(key)
+
+	def get_keys_hash(self, key):
+		return self._db.hkeys(key)
+
+	def is_exits_hash(self, key, fields):
+		return self._db.hexists(key, fields)
+
 
 if __name__ == '__main__':
 	rd = BaseRedis(config_redis)
+
+	for k, v in rd.get_all_hash("VideoChannelYoutube").items():
+		for it in (json.loads(v.decode("UTF-8"))):
+			print(it)

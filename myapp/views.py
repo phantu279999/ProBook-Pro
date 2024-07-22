@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -11,6 +12,8 @@ from src.process.process_seo import ProcessSEO
 from src.crawl_video_youtube.process import GetVideoYoutube
 from src.common.common import write_data_video_to_file_csv
 from src.extract_format import json_to_xml, xml_to_json
+from src.db_connect.base_redis import BaseRedis
+from src.config.config import config_redis
 
 
 def index(request):
@@ -41,6 +44,7 @@ def crawl_video_youtube(request):
 		context['list_video'] = list_video
 		context['status'] = status
 		context['length'] = len(list_video)
+		BaseRedis(config_redis).set_hash("VideoChannelYoutube", channel_ytb, json.dumps(list_video))
 
 	return render(request, 'video_youtube.html', context=context)
 
