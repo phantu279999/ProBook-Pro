@@ -25,7 +25,8 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'myapp',
+	'myapp.apps.MyappConfig',
+	'news.apps.NewsConfig',
 	'fontawesomefree',
 ]
 
@@ -37,6 +38,7 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	"django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
 ROOT_URLCONF = 'ProBook.urls'
@@ -67,6 +69,18 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
 		'NAME': BASE_DIR / 'db.sqlite3',
+	}
+}
+
+CACHES = {
+	"default": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": "redis://127.0.0.1:6379/1",
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient",
+			# "parser_class": "redis.connection.PythonParser",
+			# "pool_class": "redis.BlockingConnectionPool",
+		},
 	}
 }
 

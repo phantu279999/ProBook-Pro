@@ -1,8 +1,6 @@
 import os
 import sys
 import re
-import dateutil.parser
-import time
 import pandas as pd
 import unicodedata
 import datetime
@@ -44,3 +42,22 @@ def convert_datetime_to_float(data):
 		return t.timestamp()
 	else:
 		return 0
+
+
+def build_url_news(title):
+	mapping_chars = {
+		"àáảãạâầấẩẫậăằắẳẵặ": "a",
+		"èéẻẽẹêềếểễệ": "e",
+		"đ": "d",
+		"ìíỉĩị": "i",
+		"òóỏõọôồốổỗộơờớởỡợ": "o",
+		"ùúủũụưừứửữự": "u",
+		"ỳýỷỹỵ": "y"
+	}
+	title = title.lower()
+
+	for viet_chars, ascii_char in mapping_chars.items():
+		title = re.sub(r"[{}]+".format(viet_chars), ascii_char, title)
+	title = re.sub(r"[^\w\d]+", "-", title)
+
+	return title
