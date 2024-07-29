@@ -6,8 +6,19 @@
 
 {% block style %}
     img {
-        width: 100%;
-        height: auto
+    width: 100%;
+    height: auto
+    }
+    .date-info {
+    font-size: 12px;
+    }
+    .content-news {
+    font-size: 17px;
+    line-height: 24px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 100%;
+    font-weight: 400;
     }
 {% endblock %}
 
@@ -18,9 +29,17 @@
 {% block content %}
     <div class="container">
         <h1>{{ data.title }}</h1>
-        <p>{{ data.sapo }}</p>
-        <div class="content">
-            {{ body|safe }}
-        </div>
+        <p class="date-info">Date Public: {{ data.date_create }} | Create By: {{ data.created_by }}</p>
+        <h2 style="font-size: 26px;">{{ data.sapo }}</h2>
+        <hr>
+        {% if body %}
+            <div class="content content-news">
+                {{ body|safe }}
+            </div>
+        {% else %}
+            <div class="content content-news">
+                <p>This news curently has no content.</p>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
