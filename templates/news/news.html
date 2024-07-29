@@ -13,6 +13,11 @@
 
 {% block content %}
     <div class="container">
+        <div style="background-color: cornflowerblue">
+            {% for it in categories %}
+                <a href="/">{{ it.name }}</a>
+            {% endfor %}
+        </div>
         <h1>News</h1>
         <div class="row">
             {% for it in data %}

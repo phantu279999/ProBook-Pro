@@ -1,12 +1,19 @@
 from django.shortcuts import render
 
+from . import models
+
 from src.process import process_news
 from src.common.common import get_pk_in_url_news
 
 
 def home_news(request):
 	data = process_news.get_lastest_news()
-	return render(request, 'news/news.html', {'data': data})
+	categories = models.Category.objects.all()
+	context = {
+		'data': data,
+		'categories': categories,
+	}
+	return render(request, 'news/news.html', context=context)
 
 
 def detail_news(request, url):

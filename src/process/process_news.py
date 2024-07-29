@@ -20,7 +20,7 @@ def set_lastest_news(data):
 	_data = json.loads(data)
 	for item in _data:
 		key_detail = "news:pk{}".format(item['pk'])
-		db.set_string(key_detail, json.dumps(item['fields']))
+		db.set_string(key_detail, json.dumps(item['fields'], ensure_ascii=False))
 	return _data
 
 
@@ -33,7 +33,7 @@ def set_detail_news(pk):
 		return {}
 	_data = serializers.serialize("json", [_data])
 	_data = json.loads(_data)[0]
-	db.set_string(key_detail, json.dumps(_data['fields']))
+	db.set_string(key_detail, json.dumps(_data['fields'], ensure_ascii=False))
 
 	set_newscontent(pk)
 	return _data
