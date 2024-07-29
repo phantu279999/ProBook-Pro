@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 from src.common.common import build_url_news
 
@@ -22,13 +23,13 @@ class News(models.Model):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		self.url = build_url_news(self.title)
+		self.url = "{}-{}".format(build_url_news(self.title), self.pk)
 		super(News, self).save(*args, **kwargs)
 
 
 class NewsContent(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
-	body = models.TextField()
+	body = RichTextField(blank=True, null=True)
 
 
 class Category(models.Model):
