@@ -117,6 +117,9 @@ class BaseRedis:
 	def set_hash(self, key, field, value):
 		return self._db.hset(key, field, value)
 
+	def get_hash(self, key, field):
+		return self._db.hget(key, field)
+
 	def get_all_hash(self, key):
 		return self._db.hgetall(key)
 

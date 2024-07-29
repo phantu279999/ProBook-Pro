@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block style %}
+    img {
+        width: 100%;
+        height: auto
+    }
 {% endblock %}
 
 {% block title %}
@@ -15,5 +19,8 @@
     <div class="container">
         <h1>{{ data.title }}</h1>
         <p>{{ data.sapo }}</p>
+        <div class="content">
+            {{ body|safe }}
+        </div>
     </div>
 {% endblock %}

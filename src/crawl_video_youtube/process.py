@@ -37,7 +37,7 @@ class GetVideoYoutube:
 	def scroll_to_end_page(self):
 		base_source = ""
 		source_code = self._driver.page_source
-		c = 0
+		c = 0  # this is number of video want to get # self.number_scroll
 		while len(base_source) != len(source_code):
 			base_source = source_code
 			self._driver.find_element("tag name", "body").send_keys(Keys.END)

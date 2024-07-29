@@ -19,11 +19,6 @@ def write_data_video_to_file_csv(list_video):
 	try:
 		df = pd.DataFrame(list_video)
 		df.to_csv(link_file, index=False, encoding='utf-8')
-	# with open(link_file,  "w", newline='', encoding='utf-8') as f:
-	# 	writer = csv.writer(f)
-	# 	writer.writerow(["Title", "Link", "View", "Date", "Thumb"])
-	# 	for it in list_video:
-	# 		writer.writerow([it['TitleVideo'], it['Link'], it['View'], it['Date'], it['Thumb']])
 	except Exception as ex:
 		print("Error write csv", ex)
 		return "Error"
@@ -61,3 +56,7 @@ def build_url_news(title):
 	title = re.sub(r"[^\w\d]+", "-", title)
 
 	return title
+
+
+def get_pk_in_url_news(url):
+	return url.split("-")[-1]

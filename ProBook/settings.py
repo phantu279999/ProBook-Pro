@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 	'myapp.apps.MyappConfig',
 	'news.apps.NewsConfig',
 	'fontawesomefree',
+	'ckeditor'
 ]
 
 MIDDLEWARE = [
