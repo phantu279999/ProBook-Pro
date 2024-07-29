@@ -15,7 +15,7 @@
     <div class="container">
         <div style="background-color: cornflowerblue">
             {% for it in categories %}
-                <a href="/">{{ it.name }}</a>
+                <a href="{% url 'news:news_category' pk=it.pk %}" style="color: white">{{ it.name }} |</a>
             {% endfor %}
         </div>
         <h1>News</h1>

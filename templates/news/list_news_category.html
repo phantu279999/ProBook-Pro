@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block title %}
+    News Category: {{ category.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ category.name }}</h1>
+        <hr>
+        {% for it in data %}
+            <div class="row">
+                <div class="col">
+                    <img src="/media/{{ it.avatar }}" alt="{{ it.title }}"
+                         style="width: 100%; height: 300px">
+                </div>
+                <div class="col">
+                    <a href="{% url 'news:detail_news' url=it.url %}"><h3>{{ it.title }}</h3></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

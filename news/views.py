@@ -8,7 +8,7 @@ from src.common.common import get_pk_in_url_news
 
 def home_news(request):
 	data = process_news.get_lastest_news()
-	categories = models.Category.objects.all()
+	categories = process_news.get_categories()
 	context = {
 		'data': data,
 		'categories': categories,
@@ -26,4 +26,14 @@ def detail_news(request, url):
 		'body': body
 	}
 	return render(request, 'news/detail_news.html', context=context)
+
+
+def news_category(request, pk):
+	data = models.CategoryNews.objects.filter(categoryid__pk=pk)
+	context = {
+		'data': [it.newsid for it in data],
+		'category': data[0].categoryid,
+	}
+	print(data)
+	return render(request, 'news/list_news_category.html', context=context)
 

@@ -1,6 +1,6 @@
 import json
 from django.core import serializers
-from news.models import News, NewsContent
+from news.models import News, NewsContent, Category
 from src.db_connect.base_redis import BaseRedis
 from src.config.config import config_redis
 
@@ -73,6 +73,24 @@ def get_newscontent(pk):
 		return _data.decode("UTF-8")
 	else:
 		return set_newscontent(pk)
+
+
+def get_categories():
+	db = BaseRedis(config_redis)
+	if db.is_exits('categories'):
+		return json.loads(db.get_string('categories').decode("UTF-8"))
+	else:
+		data = Category.objects.all()
+		return set_categories(serializers.serialize("json", data))
+
+
+def set_categories(data):
+	db = BaseRedis(config_redis)
+	_data = []
+	for it in json.loads(data):
+		_data.append({**{"pk": it['pk']}, **it['fields']})
+	db.set_string("categories", json.dumps(_data, ensure_ascii=False))
+	return _data
 
 
 if __name__ == '__main__':
