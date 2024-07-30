@@ -36,6 +36,7 @@ def news_category(request, pk):
 			page = int(request.GET['page'])
 		except:
 			raise Http404("Object does not exist")
+	page = page if page >= 1 else 1
 	start, end = get_range_sorted_of_page(page)
 	data = process_news.get_news_in_category(pk, start, end)
 	try:
@@ -45,6 +46,10 @@ def news_category(request, pk):
 	context = {
 		'data': data,
 		'category_name': current_cate,
+		'prev_page': page - 1,
+		'current_page': page,
+		'next_page': page + 1,
+		'pk': pk,
 	}
 	return render(request, 'news/list_news_category.html', context=context)
 

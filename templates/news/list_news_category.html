@@ -26,5 +26,12 @@
                 </div>
             </div>
         {% endfor %}
+        <div style="text-align: center; padding: 10px">
+            <p>
+                <a href="{% url 'news:news_category' pk=pk %}?page={{ prev_page }}"><button><< Prev</button></a>
+                Current page: {{ current_page }}
+                <a href="{% url 'news:news_category' pk=pk %}?page={{ next_page }}"><button>Next >></button></a>
+            </p>
+        </div>
     </div>
 {% endblock %}
