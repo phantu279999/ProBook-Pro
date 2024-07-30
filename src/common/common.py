@@ -60,3 +60,14 @@ def build_url_news(title):
 
 def get_pk_in_url_news(url):
 	return url.split("-")[-1]
+
+
+def get_range_sorted_of_page(page):
+	if not isinstance(page, int):
+		return -10, -1
+	start = -(page * 10)
+	end = start + 9
+	return start, end
+
+if __name__ == '__main__':
+	...

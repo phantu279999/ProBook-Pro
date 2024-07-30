@@ -1,8 +1,9 @@
 import json
 from django.core import serializers
-from news.models import News, NewsContent, Category
+from news.models import News, NewsContent, Category, CategoryNews
 from src.db_connect.base_redis import BaseRedis
 from src.config.config import config_redis
+from src.common.common import convert_datetime_to_float
 
 
 def get_lastest_news():
@@ -91,6 +92,44 @@ def set_categories(data):
 		_data.append({**{"pk": it['pk']}, **it['fields']})
 	db.set_string("categories", json.dumps(_data, ensure_ascii=False))
 	return _data
+
+
+def get_news_in_category(pk, start=-10, end=-1):
+	db = BaseRedis(config_redis)
+	key = 'newsincate:pk{}'.format(pk)
+	if db.is_exits(key):
+		_data = db.range_sorted_set(key, start, end)
+		res = []
+		for it in _data:
+			it = it.decode("UTF-8")
+			res.append(get_detail_news(it.replace('news:pk', '')))
+		return res[::-1]
+	else:
+		_data = set_news_in_category(pk)
+		res = []
+		for it in _data:
+			res.append(get_detail_news(it.replace('news:pk', '')))
+		return res[::-1]
+
+
+def set_news_in_category(pk):
+	db = BaseRedis(config_redis)
+	key = 'newsincate:pk{}'.format(pk)
+	try:
+		data = CategoryNews.objects.filter(categoryid__pk=pk)
+	except:
+		return []
+	_data = {}
+	for it in data:
+		newspk = it.newsid.pk
+		score = convert_datetime_to_float(it.newsid.date_create)
+		_data['news:pk{}'.format(newspk)] = score
+
+	if _data:
+		res = db.add_sorted_set(key, _data)
+		if not res:
+			return []
+	return list(_data.keys())
 
 
 if __name__ == '__main__':
