@@ -7,7 +7,7 @@ from src.common.common import build_url_news
 class News(models.Model):
 	title = models.CharField(max_length=255, db_index=True)
 	sapo = models.CharField(max_length=255)
-	url = models.URLField(blank=True)
+	url = models.CharField(max_length=255, blank=True)
 	avatar = models.ImageField(upload_to='avatar_news')
 	date_create = models.DateTimeField(blank=True)
 	lastmodifield_date = models.DateTimeField(auto_now=True)
@@ -23,7 +23,8 @@ class News(models.Model):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		self.url = "{}-{}".format(build_url_news(self.title), self.pk)
+		if not self.url:
+			self.url = "{}-{}".format(build_url_news(self.title), self.pk)
 		super(News, self).save(*args, **kwargs)
 
 

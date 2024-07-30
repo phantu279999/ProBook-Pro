@@ -19,6 +19,8 @@ def home_news(request):
 
 def detail_news(request, url):
 	news_pk = get_pk_in_url_news(url)
+	if news_pk == 'None':
+		news_pk = models.News.objects.get(url=url).pk
 	data = process_news.get_detail_news(news_pk)
 	body = process_news.get_newscontent(news_pk)
 

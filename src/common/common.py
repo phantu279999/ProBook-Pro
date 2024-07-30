@@ -49,7 +49,7 @@ def build_url_news(title):
 		"ùúủũụưừứửữự": "u",
 		"ỳýỷỹỵ": "y"
 	}
-	title = title.lower()
+	title = title.strip().lower()
 
 	for viet_chars, ascii_char in mapping_chars.items():
 		title = re.sub(r"[{}]+".format(viet_chars), ascii_char, title)
