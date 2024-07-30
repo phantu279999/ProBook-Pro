@@ -26,3 +26,11 @@ config_redis = {
 	"username": "",
 	"password": ""
 }
+
+config_redis_queue = {
+	"host": "127.0.0.1",
+	"port": 6379,
+	"db": 3,
+	"username": "",
+	"password": ""
+}

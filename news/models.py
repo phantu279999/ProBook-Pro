@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 
 from src.common.common import build_url_news
+from src.process_action.base_action import BaseAction
 
 
 class News(models.Model):
@@ -25,6 +26,14 @@ class News(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.url:
 			self.url = "{}-{}".format(build_url_news(self.title), self.pk)
+		# This code push to queue and run service update db Redis
+		BaseAction().push_action_to_queue({
+			"action": "update_news",
+			"data": {
+				"pk": self.pk,
+				"title": self.title
+			}
+		})
 		super(News, self).save(*args, **kwargs)
 
 
@@ -40,10 +49,16 @@ class Category(models.Model):
 	def __str__(self):
 		return self.name
 
+	def save(self, *args, **kwargs):
+		super(Category, self).save(*args, **kwargs)
+
 
 class CategoryNews(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	categoryid = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+	def save(self, *args, **kwargs):
+		super(CategoryNews, self).save(*args, **kwargs)
 
 
 class Tag(models.Model):
@@ -65,6 +80,9 @@ class TagNews(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	tagid = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
+	def save(self, *args, **kwargs):
+		super(TagNews, self).save(*args, **kwargs)
+
 
 class Topic(models.Model):
 	name = models.CharField(max_length=255)
@@ -85,3 +103,5 @@ class TopicNews(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	topicid = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
+	def save(self, *args, **kwargs):
+		super(TopicNews, self).save(*args, **kwargs)
