@@ -92,6 +92,6 @@ class GetVideoYoutube:
 if __name__ == '__main__':
 	app_run = GetVideoYoutube()
 	list_video = app_run.app_run("https://www.youtube.com/@SofMM/videos")
-	# print(list_video)
+	print(list_video)
 	# from src.common.common import write_data_video_to_file_csv
 	# write_data_video_to_file_csv(list_video)

@@ -1,8 +1,12 @@
 from selenium import webdriver
+
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+import chromedriver_autoinstaller
 
+
+# auto download chromedriver
+chromedriver_autoinstaller.install()
 
 def custom_chrome():
     options_chrome = Options()
@@ -10,7 +14,7 @@ def custom_chrome():
     options_chrome.add_argument("--start-maximized")
     options_chrome.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    driver = webdriver.Chrome(options=options_chrome, service=Service(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(options=options_chrome)
 
     driver.implicitly_wait(30)
 
@@ -26,7 +30,7 @@ def custome_chrome_headless():
     options_chrome.add_argument('--ignore-ssl-errors')
     options_chrome.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    driver = webdriver.Chrome(options=options_chrome, service=Service(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(options=options_chrome)
     driver.implicitly_wait(30)
 
     return driver
