@@ -13,10 +13,8 @@ class News(models.Model):
 	date_create = models.DateTimeField(blank=True)
 	lastmodifield_date = models.DateTimeField(auto_now=True)
 	status = models.BooleanField()
-
 	is_home = models.BooleanField()
 	is_focus = models.BooleanField()
-
 	created_by = models.CharField(max_length=255)
 	edited_by = models.CharField(max_length=255)
 
@@ -26,7 +24,7 @@ class News(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.url:
 			self.url = "{}-{}".format(build_url_news(self.title), self.pk)
-		# This code push to queue and run service update db Redis
+		# This code push to queue and run service update db Redis=
 		BaseAction().push_action_to_queue({
 			"action": "update_news",
 			"data": {
@@ -41,11 +39,24 @@ class NewsContent(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	body = RichTextField(blank=True, null=True)
 
+	def __str__(self):
+		return self.newsid.title
+
+	def save(self, *args, **kwargs):
+		BaseAction().push_action_to_queue({
+			"action": "update_newscontent",
+			"data": {
+				"pk": self.pk,
+				"newsid": self.newsid.pk
+			}
+		})
+		super(NewsContent, self).save(*args, **kwargs)
+
 
 class Category(models.Model):
 	name = models.CharField(max_length=255)
 	url = models.URLField(blank=True)
-	
+
 	def __str__(self):
 		return self.name
 
@@ -67,10 +78,10 @@ class Tag(models.Model):
 
 	created_date = models.DateTimeField()
 	modified_date = models.DateTimeField(auto_now=True)
-	
+
 	def __str__(self):
 		return self.name
-	
+
 	def save(self, *args, **kwargs):
 		self.url = build_url_news(self.name)
 		super(Tag, self).save(*args, **kwargs)
@@ -90,7 +101,7 @@ class Topic(models.Model):
 
 	created_date = models.DateTimeField()
 	modified_date = models.DateTimeField(auto_now=True)
-	
+
 	def __str__(self):
 		return self.name
 

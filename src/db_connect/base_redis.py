@@ -133,6 +133,27 @@ class BaseRedis:
 		return self._db.hexists(key, fields)
 
 
+class RedisQueue:
+	def __init__(self, name, sub_name="queue", config_db=None):
+		self._db = redis.Redis(
+			host=config_db.get("host", ""),
+			port=config_db.get("port", ""),
+			db=config_db.get("db", ""),
+			username=config_db.get("username", ""),
+			password=config_db.get("password", ""),
+		)
+		self.key = "{}:{}".format(name, sub_name)
+
+	def enqueue(self, item):
+		return self._db.rpush(self.key, item)
+
+	def dequeue(self):
+		return self._db.lpop(self.key)
+
+	def queue_size(self):
+		return self._db.llen(self.key)
+
+
 if __name__ == '__main__':
 	rd = BaseRedis(config_redis)
 
