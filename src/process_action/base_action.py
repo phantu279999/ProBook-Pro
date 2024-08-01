@@ -60,25 +60,41 @@ class BaseAction:
 		return res
 
 	def update_newscontent(self, data):
-		...
+		res = []
+		obj = data['data']
+		res += business.NewsDetail().init_by({'newsid_id': obj['newsid']})
+		return res
 
 	def update_category(self, data):
-		...
+		res = []
+		res += business.Category().init_all()
+		return res
 
 	def update_categorynews(self, data):
-		...
+		res = []
+		obj = data['data']
+		res += business.CategoryNews().init_by({"categoryid_id": obj['cate_id']})
+		return res
 
 	def update_tag(self, data):
-		...
+		res = []
+
+		return res
 
 	def update_tagnews(self, data):
-		...
+		res = []
+
+		return res
 
 	def update_topic(self, data):
-		...
+		res = []
+
+		return res
 
 	def update_topicnews(self, data):
-		...
+		res = []
+
+		return res
 
 	def push_action_to_queue(self, data):
 		if isinstance(data, dict):
