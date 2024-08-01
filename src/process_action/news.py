@@ -1,29 +1,33 @@
-from src.db_connect.base_mysql import BaseMySQL
-from src.db_connect.base_redis import BaseRedis
+import json
 
-class News:
+from src.process_action.base import Base
+
+
+class News(Base):
 	def __init__(self, config):
+		Base.__init__(self, config)
 		self.config = config.action['News']
-		self.db_redis = BaseRedis(config.config_redis)
-		self.db_mysql = BaseMySQL(config.config_mysql)
 
-	def _process_redis(self, data):
-		key_redis = self.config['key_redis']
-		for it in key_redis:
-			if it['type'] == 'string':
-				...
-			elif it['type'] == 'hash':
-				...
-			elif it['type'] == 'sorted':
-				...
+	def get_data(self, data):
+		key = 'news'
+		_data = self.db_redis.range_sorted_set(key)
+		return _data
 
-	def push_data_to_redis(self, data):
-		...
 
-	def build_data(self):
-		query = self.config['query']
-		if query[1]:
-			...
+class NewsDetail(Base):
+	def __init__(self, config):
+		Base.__init__(self, config)
+		self.config = config.action['NewsDetail']
 
-	def init_all(self):
-		...
+	def get_data(self, data):
+		key = 'news:pk{}'.format(data['id'])
+		_data = self.db_redis.get_string(key)
+		return json.loads(_data.decode("UTF-8"))
+
+
+class NewsContent(Base):
+	def __init__(self, config):
+		Base.__init__(self, config)
+		self.config = config.action['NewsContent']
+
+

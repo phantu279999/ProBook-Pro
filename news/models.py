@@ -24,6 +24,7 @@ class News(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.url:
 			self.url = "{}-{}".format(build_url_news(self.title), self.pk)
+		super(News, self).save(*args, **kwargs)
 		# This code push to queue and run service update db Redis=
 		BaseAction().push_action_to_queue({
 			"action": "update_news",
@@ -32,7 +33,6 @@ class News(models.Model):
 				"title": self.title
 			}
 		})
-		super(News, self).save(*args, **kwargs)
 
 
 class NewsContent(models.Model):
@@ -43,6 +43,7 @@ class NewsContent(models.Model):
 		return self.newsid.title
 
 	def save(self, *args, **kwargs):
+		super(NewsContent, self).save(*args, **kwargs)
 		BaseAction().push_action_to_queue({
 			"action": "update_newscontent",
 			"data": {
@@ -50,7 +51,6 @@ class NewsContent(models.Model):
 				"newsid": self.newsid.pk
 			}
 		})
-		super(NewsContent, self).save(*args, **kwargs)
 
 
 class Category(models.Model):
@@ -62,6 +62,13 @@ class Category(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(Category, self).save(*args, **kwargs)
+		BaseAction().push_action_to_queue({
+			"action": "update_category",
+			"data": {
+				"pk": self.pk,
+				"name": self.name
+			}
+		})
 
 
 class CategoryNews(models.Model):
@@ -70,6 +77,14 @@ class CategoryNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(CategoryNews, self).save(*args, **kwargs)
+
+		BaseAction().push_action_to_queue({
+			"action": "update_categorynews",
+			"data": {
+				"pk": self.pk,
+				"cate_id": self.categoryid.pk
+			}
+		})
 
 
 class Tag(models.Model):
@@ -85,6 +100,13 @@ class Tag(models.Model):
 	def save(self, *args, **kwargs):
 		self.url = build_url_news(self.name)
 		super(Tag, self).save(*args, **kwargs)
+		BaseAction().push_action_to_queue({
+			"action": "update_tag",
+			"data": {
+				"pk": self.pk,
+				"name": self.name
+			}
+		})
 
 
 class TagNews(models.Model):
@@ -93,6 +115,13 @@ class TagNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(TagNews, self).save(*args, **kwargs)
+		BaseAction().push_action_to_queue({
+			"action": "update_tagnews",
+			"data": {
+				"pk": self.pk,
+				"tag_id": self.tagid_id
+			}
+		})
 
 
 class Topic(models.Model):
@@ -108,6 +137,13 @@ class Topic(models.Model):
 	def save(self, *args, **kwargs):
 		self.url = build_url_news(self.name)
 		super(Topic, self).save(*args, **kwargs)
+		BaseAction().push_action_to_queue({
+			"action": "update_topic",
+			"data": {
+				"pk": self.pk,
+				"name": self.name
+			}
+		})
 
 
 class TopicNews(models.Model):
@@ -116,3 +152,10 @@ class TopicNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(TopicNews, self).save(*args, **kwargs)
+		BaseAction().push_action_to_queue({
+			"action": "update_topicnews",
+			"data": {
+				"pk": self.pk,
+				"topic_id": self.topicid_id
+			}
+		})

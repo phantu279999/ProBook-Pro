@@ -2,12 +2,14 @@ import os
 import sys
 import json
 import time
+import traceback
 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(project_root)
 
 from src.db_connect.base_redis import RedisQueue
 from src.config.config import config_redis_queue
+from src.process_action import business
 
 
 class BaseAction:
@@ -26,48 +28,56 @@ class BaseAction:
 		]
 
 	def process_action(self, item):
+		res = []
 		if isinstance(item, bytes):
 			item = json.loads(item.decode("UTF-8"))
 
 		if item['action'] == 'update_news':
-			...
+			res += self.update_news(item)
 		elif item['action'] == 'update_newscontent':
-			...
+			res += self.update_newscontent(item)
 		elif item['action'] == 'update_category':
-			...
+			res += self.update_category(item)
 		elif item['action'] == 'update_categorynews':
-			...
+			res += self.update_categorynews(item)
 		elif item['action'] == 'update_tag':
-			...
+			res += self.update_tag(item)
 		elif item['action'] == 'update_tagnews':
-			...
+			res += self.update_tagnews(item)
 		elif item['action'] == 'update_topic':
-			...
+			res += self.update_topic(item)
 		elif item['action'] == 'update_topicnews':
-			...
+			res += self.update_topicnews(item)
 
-	def update_news(self):
+		return res
+
+	def update_news(self, data):
+		res = []
+		obj = data['data']
+		res += business.NewsDetail().init_by({"id": obj['pk']})
+		_data = business.NewsDetail().get_data({"id": obj['pk']})
+		res += business.News().push_data_to_redis(_data)
+		return res
+
+	def update_newscontent(self, data):
 		...
 
-	def update_newscontent(self):
+	def update_category(self, data):
 		...
 
-	def update_category(self):
+	def update_categorynews(self, data):
 		...
 
-	def update_categorynews(self):
+	def update_tag(self, data):
 		...
 
-	def update_tag(self):
+	def update_tagnews(self, data):
 		...
 
-	def update_tagnews(self):
+	def update_topic(self, data):
 		...
 
-	def update_topic(self):
-		...
-
-	def update_topicnews(self):
+	def update_topicnews(self, data):
 		...
 
 	def push_action_to_queue(self, data):
@@ -77,19 +87,17 @@ class BaseAction:
 
 	def app_run(self):
 		while True:
-			item = self.db.dequeue()
-			if not item:
-				time.sleep(10)
-				continue
-			print(item)
-			self.process_action(item)
+			try:
+				item = self.db.dequeue()
+				if not item:
+					time.sleep(10)
+					continue
+				print(item)
+				res = self.process_action(item)
+				print(res)
+			except:
+				print(traceback.format_exc())
 
 
 if __name__ == '__main__':
-	# import sqlite3
-	# conn = sqlite3.connect('G:\Py\ProBook\db.sqlite3')
-	# cur = conn.cursor()
-	# cur.execute('''SELECT * FROM news_news''')
-	# for it in cur:
-	# 	print(it)
-	...
+	BaseAction().app_run()

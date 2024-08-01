@@ -24,23 +24,27 @@ config_redis_queue = {
 
 action = {
 	"News": {
-		"query": ("""SELECT id, title, sapo, url, avatar, date_create, status, is_onhome, is_focus, created_by, 
+		"query": ("""SELECT id, title, sapo, url, avatar, date_create, status, is_home, is_focus, created_by, 
 		edited_by FROM news_news ORDER BY date_create DESC LIMIT 1000;""", []),
 		"key_redis": [
 			{
-				"type": "string",
+				"type": "sorted",
 				"key": ("news", []),
-				"item": ()
+				"item": ('news:pk{}', ['id']),
+				"score": "date_create",
+				"obj": "item"
 			}
 		]
 	},
 	"NewsDetail": {
-		"query": ("SELECT id FROM news_news WHERE id = {};", ["id"]),
+		"query": ("""SELECT id, title, sapo, url, avatar, date_create, status, is_home, is_focus, created_by, 
+		edited_by FROM news_news WHERE id = {};""", ["id"]),
 		"key_redis": [
 			{
 				"type": "string",
 				"key": ("news:pk{}", ['id']),
-				"item": ()
+				"item": ("*", []),
+				"obj": "item"
 			}
 		]
 	},
@@ -51,17 +55,19 @@ action = {
 				"type": "hash",
 				"key": ("newscontent", []),
 				"field": ("news:pk{}", ["newsid_id"]),
-				"item": ("{}", ["body"])
+				"item": ("{}", ["body"]),
+				"obj": "item"
 			}
 		]
 	},
 	"Category": {
-		"query": ("SELECT id FROM news_news WHERE id = {};", ["id"]),
+		"query": ("SELECT * FROM news_category;", []),
 		"key_redis": [
 			{
 				"type": "string",
 				"key": ("categories", []),
-				"item": ()
+				"item": ("*", []),
+				"obj": "all"
 			}
 		]
 	},
@@ -74,7 +80,8 @@ action = {
 				"type": "sorted",
 				"key": ("newsincate:pk{}", ['categoryid_id']),
 				"item": ('news:pk{}', ['newsid_id']),
-				"score": "date_create"
+				"score": "date_create",
+				"obj": "item"
 			}
 		]
 	},

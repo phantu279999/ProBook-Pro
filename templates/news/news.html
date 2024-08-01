@@ -22,22 +22,22 @@
 
 {% block content %}
     <div class="container">
-        <div style="background-color: cornflowerblue">
+        <h1>News</h1>
+        <div style="background-color: cornflowerblue; padding: 20px; margin: 20px;">
             {% for it in categories %}
                 <a href="{% url 'news:news_category' pk=it.pk %}" style="color: white">{{ it.name }} |</a>
             {% endfor %}
         </div>
-        <h1>News</h1>
         <div class="row">
             <div class="card-group" style="border: none;">
                 {% for it in data %}
                     <div class="col-lg-4 col-md-6 col-12" style="padding: 10px">
-                        <a href="{% url 'news:detail_news' url=it.fields.url %}">
-                            <img class="img-tin" src="/media/{{ it.fields.avatar }}" alt="{{ it.fields.title }}"/>
+                        <a href="{% url 'news:detail_news' url=it.url %}">
+                            <img class="img-tin" src="/media/{{ it.avatar }}" alt="{{ it.title }}"/>
                         </a>
-                        <a href="{% url 'news:detail_news' url=it.fields.url %}">
+                        <a href="{% url 'news:detail_news' url=it.url %}">
                             <h2 style="font-size: 16px;" class="card-title">
-                                <b>{{ it.fields.title }}</b>
+                                <b>{{ it.title }}</b>
                             </h2>
                         </a>
                     </div>
