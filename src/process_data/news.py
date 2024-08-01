@@ -1,6 +1,6 @@
 import json
 
-from src.process_action.base import Base
+from src.process_data.base import Base
 
 
 class News(Base):

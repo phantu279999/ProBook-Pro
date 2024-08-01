@@ -1,4 +1,4 @@
-from src.process_action import config, news, category
+from src.process_data import config, news, category
 
 
 class News(news.News):

@@ -9,7 +9,7 @@ sys.path.append(project_root)
 
 from src.db_connect.base_redis import RedisQueue
 from src.config.config import config_redis_queue
-from src.process_action import business
+from src.process_data import business
 
 
 class BaseAction:

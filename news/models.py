@@ -2,7 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 
 from src.common.common import build_url_news
-from src.process_action.base_action import BaseAction
+from src.process_data.base_action import BaseAction
 
 
 class News(models.Model):
