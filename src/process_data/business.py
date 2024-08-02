@@ -28,6 +28,6 @@ class CategoryNews(category.CategoryNews):
 
 if __name__ == '__main__':
 	# print(NewsDetail().init_by({'id': 3}))
-	# print(News().init_all())
-	print(NewsDetail().get_data({'id': 1}))
+	print(News().get_news_detail())
+	# print(NewsDetail().get_data({'id': 1}))
 	# print(NewsContent(config).init_by({'newsid_id': 2}))

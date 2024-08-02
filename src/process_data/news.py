@@ -8,7 +8,18 @@ class News(Base):
 		Base.__init__(self, config)
 		self.config = config.action['News']
 
-	def get_data(self, data):
+	def get_news_detail(self):
+		_data = self.get_data()
+		if not _data:
+			return []
+		res = []
+		for it in _data[::-1]:
+			newsid = it.decode("UTF-8").replace("news:pk", "")
+			_news = NewsDetail(self.config_it).get_data({'id': newsid})
+			res.append(_news)
+		return res
+
+	def get_data(self):
 		key = 'news'
 		_data = self.db_redis.range_sorted_set(key)
 		return _data

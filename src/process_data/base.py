@@ -10,6 +10,7 @@ from src.common.common import convert_datetime_to_float
 class Base:
 	def __init__(self, config):
 		self.config = None
+		self.config_it = config
 		self.db_redis = BaseRedis(config.config_redis)
 		self.db_mysql = BaseMySQL(config.config_mysql)
 

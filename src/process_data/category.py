@@ -6,6 +6,9 @@ class Category(Base):
 		Base.__init__(self, config)
 		self.config = config.action['Category']
 
+	def get_data(self):
+		...
+
 
 class CategoryNews(Base):
 	def __init__(self, config):
