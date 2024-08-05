@@ -25,7 +25,7 @@
         <h1>News</h1>
         <div style="background-color: cornflowerblue; padding: 20px; margin: 20px;">
             {% for it in categories %}
-                <a href="{% url 'news:news_category' pk=it.pk %}" style="color: white">{{ it.name }} |</a>
+                <a href="{% url 'news:news_category' pk=it.id %}" style="color: white">{{ it.name }} |</a>
             {% endfor %}
         </div>
         <div class="row">

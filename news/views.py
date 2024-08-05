@@ -4,14 +4,14 @@ from django.http import Http404
 from . import models
 
 from src.process import process_news
-from src.process_data.business import News
+from src.process_data.business import News, Category
 from src.common.common import get_pk_in_url_news, get_range_sorted_of_page
 
 
 def home_news(request):
 	# data = process_news.get_lastest_news()
 	data = News().get_news_detail()
-	categories = process_news.get_categories()
+	categories = Category().get_data()
 	context = {
 		'data': data,
 		'categories': categories,
