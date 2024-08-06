@@ -62,6 +62,17 @@ def get_pk_in_url_news(url):
 	return url.split("-")[-1]
 
 
+def get_current_page(request):
+	page = 1
+	if 'page' in request.GET and request.GET['page']:
+		try:
+			page = int(request.GET['page'])
+		except:
+			pass
+	page = page if page >= 1 else 1
+	return page
+
+
 def get_range_sorted_of_page(page):
 	if not isinstance(page, int):
 		return -10, -1
