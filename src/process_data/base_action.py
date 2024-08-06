@@ -16,16 +16,6 @@ class BaseAction:
 
 	def __init__(self):
 		self.db = RedisQueue('queue_action', config_db=config_redis_queue)
-		self.list_action = [
-			'update_news',
-			'update_newscontent',
-			'update_category',
-			'update_categorynews',
-			'update_tag',
-			'update_tagnews',
-			'update_topic',
-			'update_topicnews',
-		]
 
 	def process_action(self, item):
 		res = []

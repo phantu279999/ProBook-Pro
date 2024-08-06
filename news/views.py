@@ -4,12 +4,11 @@ from django.http import Http404
 from . import models
 
 from src.process import process_news
-from src.process_data.business import News, Category
+from src.process_data.business import News, NewsDetail, NewsContent, Category, CategoryNews
 from src.common.common import get_pk_in_url_news, get_range_sorted_of_page
 
 
 def home_news(request):
-	# data = process_news.get_lastest_news()
 	data = News().get_news_detail()
 	categories = Category().get_data()
 	context = {
@@ -23,8 +22,8 @@ def detail_news(request, url):
 	news_pk = get_pk_in_url_news(url)
 	if news_pk == 'None':
 		news_pk = models.News.objects.get(url=url).pk
-	data = process_news.get_detail_news(news_pk)
-	body = process_news.get_newscontent(news_pk)
+	data = NewsDetail().get_data({'id': news_pk})
+	body = NewsContent().get_data(news_pk)
 
 	context = {
 		'data': data,
@@ -42,9 +41,10 @@ def news_category(request, pk):
 			raise Http404("Object does not exist")
 	page = page if page >= 1 else 1
 	start, end = get_range_sorted_of_page(page)
-	data = process_news.get_news_in_category(pk, start, end)
+	data = CategoryNews().get_data(cate_id=pk, start=start, end=end)
+	# data = process_news.get_news_in_category(pk, start, end)
 	try:
-		current_cate = models.Category.objects.get(pk=pk).name
+		current_cate = Category().get_specifically_data(cate_id=pk)['name']
 	except:
 		current_cate = "Not found Category"
 	context = {

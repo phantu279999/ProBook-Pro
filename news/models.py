@@ -4,6 +4,9 @@ from ckeditor.fields import RichTextField
 from src.common.common import build_url_news
 from src.process_data.base_action import BaseAction
 
+# When model is updated, there will be an action to save it to the Redis queue and
+# there will be another thread running to automatically update the data on Redis.
+
 
 class News(models.Model):
 	title = models.CharField(max_length=255, db_index=True)
@@ -25,7 +28,7 @@ class News(models.Model):
 		if not self.url:
 			self.url = "{}-{}".format(build_url_news(self.title), self.pk)
 		super(News, self).save(*args, **kwargs)
-		# This code push to queue and run service update db Redis=
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_news",
 			"data": {
@@ -44,6 +47,7 @@ class NewsContent(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(NewsContent, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_newscontent",
 			"data": {
@@ -62,6 +66,7 @@ class Category(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(Category, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_category",
 			"data": {
@@ -77,7 +82,7 @@ class CategoryNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(CategoryNews, self).save(*args, **kwargs)
-
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_categorynews",
 			"data": {
@@ -100,6 +105,7 @@ class Tag(models.Model):
 	def save(self, *args, **kwargs):
 		self.url = build_url_news(self.name)
 		super(Tag, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_tag",
 			"data": {
@@ -115,6 +121,7 @@ class TagNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(TagNews, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_tagnews",
 			"data": {
@@ -137,6 +144,7 @@ class Topic(models.Model):
 	def save(self, *args, **kwargs):
 		self.url = build_url_news(self.name)
 		super(Topic, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_topic",
 			"data": {
@@ -152,6 +160,7 @@ class TopicNews(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(TopicNews, self).save(*args, **kwargs)
+		# Auto update data Redis
 		BaseAction().push_action_to_queue({
 			"action": "update_topicnews",
 			"data": {
