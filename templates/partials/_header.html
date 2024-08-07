@@ -22,5 +22,16 @@
                 </li>
             </ul>
         </div>
+        {% if user.is_authenticated %}
+            <div class="mr-auto" style="text-align: right">
+                Hello: {{ user.username }}&nbsp;
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+        {% else %}
+            <div class="mr-auto" style="text-align: right">
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}">Register</a>
+            </div>
+        {% endif %}
     </div>
 </nav>

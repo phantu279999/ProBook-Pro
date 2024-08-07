@@ -80,5 +80,25 @@ def get_range_sorted_of_page(page):
 	end = start + 9
 	return start, end
 
+
+def check_password(password, password_2):
+	if password != password_2:
+		return False
+
+	# Basic password strength checks (add more as needed)
+	if len(password) < 8:
+		return False
+	if not any(char.isdigit() for char in password):
+		print("Digit")
+		return False
+	if not any(char.isupper() for char in password):
+		print("isupper")
+		return False
+	if not any(char.islower() for char in password):
+		print("islower")
+		return False
+	return True
+
+
 if __name__ == '__main__':
 	...

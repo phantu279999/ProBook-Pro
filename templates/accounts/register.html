@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+
+{% block head %}
+{% endblock %}
+
+{% block style %}
+    form {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #cccccc;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    }
+    input {
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    }
+    button {
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    }
+
+    img {
+    width:100%;
+    height: auto;
+    }
+
+    .alert-msg {
+    background-color: lightcoral;
+    padding: 5px;
+    border-radius: 10px
+    }
+{% endblock %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Register</h1>
+        {% if msg %}
+            <p class="alert-msg">{{ msg }}</p>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="username" class="form-label">Usenname</label>
+            <input type="text" name="username" id="username">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" name="confirm_password" id="confirm_password">
+            <button type="submit">Register</button>
+        </form>
+    </div>
+{% endblock %}
