@@ -27,6 +27,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'myapp.apps.MyappConfig',
 	'news.apps.NewsConfig',
+	'accounts.apps.AccountsConfig',
 	'fontawesomefree',
 	'ckeditor'
 ]
