@@ -127,16 +127,18 @@ class Base:
 		return res
 
 	def _process_redis(self, data):
+		res = []
 		key_redis = self.config['key_redis']
 		for it in key_redis:
 			if it['type'] == 'string':
-				return self.process_string_redis(data, it)
+				res += self.process_string_redis(data, it)
 			elif it['type'] == 'hash':
-				return self.process_hash_redis(data, it)
+				res += self.process_hash_redis(data, it)
 			elif it['type'] == 'sorted':
-				return self.process_sorted_redis(data, it)
+				res += self.process_sorted_redis(data, it)
 			elif it['type'] == 'list':
-				return self.process_list_redis(data, it)
+				res += self.process_list_redis(data, it)
+		return res
 
 	def push_data_to_redis(self, data):
 		return self._process_redis(data)

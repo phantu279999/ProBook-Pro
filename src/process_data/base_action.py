@@ -17,10 +17,14 @@ class BaseAction:
 	def __init__(self):
 		self.db = RedisQueue('queue_action', config_db=config_redis_queue)
 
-	def process_action(self, item):
-		res = []
+	def get_data_item(self, item):
 		if isinstance(item, bytes):
 			item = json.loads(item.decode("UTF-8"))
+		return item
+
+	def process_action(self, item):
+		res = []
+		item = self.get_data_item(item)
 
 		if item['action'] == 'update_news':
 			res += self.update_news(item)
@@ -68,12 +72,13 @@ class BaseAction:
 
 	def update_tag(self, data):
 		res = []
-
+		res += business.Tag().init_all()
 		return res
 
 	def update_tagnews(self, data):
 		res = []
-
+		obj = data['data']
+		res += business.TagNews().init_by({'tagid_id': obj['tag_id']})
 		return res
 
 	def update_topic(self, data):

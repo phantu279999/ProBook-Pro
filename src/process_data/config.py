@@ -85,8 +85,46 @@ action = {
 			}
 		]
 	},
-	"Tag": {},
-	"TagNews": {},
+	"Tag": {
+		"query": ("SELECT * FROM news_tag;", []),
+		"key_redis": [
+			{
+				"type": "string",
+				"key": ("tags:id{}", ['id']),
+				"item": ("*", []),
+				"obj": "item"
+			},
+			{
+				"type": "string",
+				"key": ("tags:url{}", ['url']),
+				"item": ("*", []),
+				"obj": "item"
+			}
+		]
+	},
+	"TagNews": {
+		"query": (
+			"""SELECT tn.tagid_id, tn.newsid_id, t.created_date FROM news_tagnews tn
+				INNER JOIN news_tag t ON t.id = tn.tagid_id
+				WHERE tn.tagid_id = {};""", ["tagid_id"]
+		),
+		"key_redis": [
+			{
+				"type": "sorted",
+				"key": ("newsintag:tagid{}", ['tagid_id']),
+				"item": ('news:pk{}', ['newsid_id']),
+				"score": "created_date",
+				"obj": "item"
+			},
+			{
+				"type": "sorted",
+				"key": ("newsintag:newsid{}", ['newsid_id']),
+				"item": ('tags:id{}', ['tagid_id']),
+				"score": "created_date",
+				"obj": "item"
+			},
+		]
+	},
 	"Topic": {},
 	"TopicNews": {},
 }
