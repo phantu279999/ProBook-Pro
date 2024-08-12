@@ -21,3 +21,7 @@ This application manages posts, and it uses the Redis cache layer
 ```
 
 When updating a model, it will be stored in the Redis queue, and there is a service that retrieves the data in the Redis queue and updates accordingly to that model.
+
+### Database structure
+
+<img src="https://raw.githubusercontent.com/phantu279999/ProBook-Pro/master/media/helper/schema_probook_news.png">
