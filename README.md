@@ -16,6 +16,10 @@ Manage tools in my website
 ## NEWS APP
 This application manages posts, and it uses the Redis cache layer
 
+**file process redis: /src/process_data**
+
+**file service: /services/services_update_redis.py**
+
 ```bash
   |MODEL| ----> |SERVICE| -----> update data redis
 ```

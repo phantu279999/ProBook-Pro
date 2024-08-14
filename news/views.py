@@ -64,9 +64,8 @@ def news_in_tags_view(request, url):
 def news_in_topic_view(request, url):
 	_topic = business.Topic().get_data_by_url(url)
 	_news = business.TopicNews().get_data(_topic['id'])
-	print("----", _topic)
 	context = {
-		"tag": _topic,
+		"topic": _topic,
 		'data': _news
 	}
 	return render(request, 'news/news_in_topic.html', context=context)

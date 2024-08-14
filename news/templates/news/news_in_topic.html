@@ -17,12 +17,12 @@
 {% endblock %}
 
 {% block title %}
-    News Topic
+    News Topic: {{ topic.name }}
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Tag: {{ tag.name }}</h1>
+        <h1>Topic: {{ topic.name }}</h1>
         <div class="card-group" style="border: none;">
             {% for it in data %}
                 <div class="col-lg-4 col-md-6 col-12" style="padding: 10px">
