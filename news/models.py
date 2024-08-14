@@ -119,6 +119,9 @@ class TagNews(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	tagid = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
+	class Meta:
+		unique_together = ('newsid', 'tagid')
+
 	def save(self, *args, **kwargs):
 		super(TagNews, self).save(*args, **kwargs)
 		# Auto update data Redis
@@ -157,6 +160,12 @@ class Topic(models.Model):
 class TopicNews(models.Model):
 	newsid = models.ForeignKey(News, on_delete=models.CASCADE)
 	topicid = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return "{} -> {}".format(self.topicid.name, self.newsid.title)
+
+	class Meta:
+		unique_together = ('newsid', 'topicid')
 
 	def save(self, *args, **kwargs):
 		super(TopicNews, self).save(*args, **kwargs)

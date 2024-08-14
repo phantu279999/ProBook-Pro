@@ -1,4 +1,4 @@
-from src.process_data import config, news, category, tags
+from src.process_data import config, news, category, tags, topics
 
 
 class News(news.News):
@@ -36,6 +36,16 @@ class TagNews(tags.TagNews):
 		tags.TagNews.__init__(self, config)
 
 
+class Topic(topics.Topic):
+	def __init__(self):
+		topics.Topic.__init__(self, config)
+
+
+class TopicNews(topics.TopicNews):
+	def __init__(self):
+		topics.TopicNews.__init__(self, config)
+
+
 if __name__ == '__main__':
 	# print(NewsDetail().init_by({'id': 3}))
 	# print(News().get_news_detail())
@@ -43,6 +53,8 @@ if __name__ == '__main__':
 	# print(CategoryNews().get_data(1))
 	# print(NewsDetail().get_data({'id': 1}))
 	# print(NewsContent(config).init_by({'newsid_id': 2}))
-	print(Tag().get_data_by_url('python'))
+	# print(Tag().get_data_by_url('python'))
 	# print(TagNews().init_by({'tagid_id': 3}))
 	# print(TagNews().get_data(1))
+	# print(Topic().init_all())
+	print(TopicNews().init_by({'topicid_id': 1}))

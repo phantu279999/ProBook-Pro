@@ -10,6 +10,9 @@ sys.path.append(project_root)
 from src.db_connect.base_redis import RedisQueue
 from src.config.config import config_redis_queue
 from src.process_data import business
+from src.common.log_base import BaseLogger
+
+logger = BaseLogger('action_news', log_file=project_root + '\\logs\\action_news.log')
 
 
 class BaseAction:
@@ -83,12 +86,13 @@ class BaseAction:
 
 	def update_topic(self, data):
 		res = []
-
+		res += business.Topic().init_all()
 		return res
 
 	def update_topicnews(self, data):
 		res = []
-
+		obj = data['data']
+		res += business.TopicNews().init_by({'topicid_id': obj['topic_id']})
 		return res
 
 	def push_action_to_queue(self, data):
@@ -106,6 +110,7 @@ class BaseAction:
 				print(item)
 				res = self.process_action(item)
 				print(res)
+				logger.info(res)
 			except:
 				print(traceback.format_exc())
 

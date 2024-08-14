@@ -125,6 +125,44 @@ action = {
 			},
 		]
 	},
-	"Topic": {},
-	"TopicNews": {},
+	"Topic": {
+		"query": ("SELECT * FROM news_topic;", []),
+		"key_redis": [
+			{
+				"type": "string",
+				"key": ("topic:id{}", ['id']),
+				"item": ("*", []),
+				"obj": "item"
+			},
+			{
+				"type": "string",
+				"key": ("topic:url{}", ['url']),
+				"item": ("*", []),
+				"obj": "item"
+			}
+		]
+	},
+	"TopicNews": {
+		"query": (
+			"""SELECT tn.topicid_id, tn.newsid_id, t.created_date FROM news_topicnews tn
+				INNER JOIN news_topic t ON t.id = tn.topicid_id
+				WHERE tn.topicid_id = {};""", ["topicid_id"]
+		),
+		"key_redis": [
+			{
+				"type": "sorted",
+				"key": ("newsintopic:topicid{}", ['topicid_id']),
+				"item": ('news:pk{}', ['newsid_id']),
+				"score": "created_date",
+				"obj": "item"
+			},
+			{
+				"type": "sorted",
+				"key": ("newsintopic:newsid{}", ['newsid_id']),
+				"item": ('tags:id{}', ['topicid_id']),
+				"score": "created_date",
+				"obj": "item"
+			},
+		]
+	},
 }
