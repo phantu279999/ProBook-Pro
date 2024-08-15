@@ -34,8 +34,10 @@ def index(request):
 def crawl_video_youtube(request):
 	context = {}
 	channel_ytb = request.POST.get('domain_channel') or request.GET.get('channel_ytb')
+	number_of_videos = request.POST['number_of_video'] if 'number_of_video' in request.POST else 90
+
 	if channel_ytb:
-		list_video, status = get_list_video_ytb(channel_ytb)
+		list_video, status = get_list_video_ytb(channel_ytb, int(number_of_videos))
 		context = {
 			'list_video': list_video,
 			'status': status,
@@ -78,9 +80,9 @@ def extract_format(request):
 	return render(request, 'extract_format.html', context=context)
 
 
-def get_list_video_ytb(link_channel):
+def get_list_video_ytb(link_channel, number_of_video):
 	try:
-		list_video = GetVideoYoutube().app_run(link_channel)
+		list_video = GetVideoYoutube().app_run(link_channel, number_of_video=number_of_video)
 		res = write_data_video_to_file_csv(list_video)
 		status = res != 'Error'
 		if not status:
