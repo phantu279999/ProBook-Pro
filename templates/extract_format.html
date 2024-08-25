@@ -6,10 +6,10 @@
 
 {% block style %}
     .msg-error {
-        background-color: #ff8282;
-        color: white;
-        padding: 5px;
-        border-radius: 10px;
+    background-color: #ff8282;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
     }
 {% endblock %}
 
@@ -23,26 +23,34 @@
         {% if message_error %}
             <p class="msg-error">{{ message_error }}</p>
         {% endif %}
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
+                <input type="file" name="file_extract">
                 <div class="col-lg-6 col-12">
                     <textarea name="content_format" rows="10" cols="70"></textarea><br>
                 </div>
                 <div class="col-lg-3 col-12">
                     <h3>Input</h3>
-                    <input type="radio" id="json" name="input_format" value="JSON">
-                    <label for="json">JSON</label><br>
-                    <input type="radio" id="xml" name="input_format" value="XML">
-                    <label for="xml">XML</label><br>
-
+                    <select name="input_format">
+                        <option value="json">JSON</option>
+                        <option value="xml">XML</option>
+                    </select>
+                    {#                    <input type="radio" id="json" name="input_format" value="JSON">#}
+                    {#                    <label for="json">JSON</label><br>#}
+                    {#                    <input type="radio" id="xml" name="input_format" value="XML">#}
+                    {#                    <label for="xml">XML</label><br>#}
                 </div>
                 <div class="col-lg-3 col-12">
                     <h3>Output</h3>
-                    <input type="radio" id="json" name="output_format" value="JSON">
-                    <label for="json">JSON</label><br>
-                    <input type="radio" id="xml" name="output_format" value="XML">
-                    <label for="xml">XML</label><br>
+                    <select name="output_format">
+                        <option value="json">JSON</option>
+                        <option value="xml">XML</option>
+                    </select>
+{#                    <input type="radio" id="json" name="output_format" value="JSON">#}
+{#                    <label for="json">JSON</label><br>#}
+{#                    <input type="radio" id="xml" name="output_format" value="XML">#}
+{#                    <label for="xml">XML</label><br>#}
 
                 </div>
             </div>

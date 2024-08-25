@@ -1,1 +1,210 @@
-{"run": {"item": ["test_login", "test_search"]}, "test_login": {"time_sleep_action": "1", "action": {"item": [{"name": null, "value": "http://testphp.vulnweb.com/", "type": "get_domain"}, {"locator": "//a[@href='login.php']", "type": "click"}, {"type": "input", "value": "test", "locator": "//input[@name=\"uname\"]"}, {"type": "input", "value": "test", "locator": "//input[@name=\"pass\"]"}, {"locator": "//input[@value=\"login\"]", "type": "click", "result": {"type": "title", "value": "user info"}}]}}, "test_search": {"time_sleep_action": "1", "action": {"item": [{"name": null, "value": "http://testphp.vulnweb.com/", "type": "get_domain"}, {"locator": "//input[@name=\"searchFor\"]", "type": "input", "value": "test"}, {"type": "click", "locator": "//input[@name=\"goButton\"]"}, {"locator": "//div[@id=\"content\"]//h2", "type": "click", "result": {"type": "xpath_text", "value": "searched for: test", "xpath": "//div[@id=\"content\"]//h2"}}]}}}
+{
+  "run": {
+    "item": "test_logout",
+    "text": "\n\n        "
+  },
+  "test_login": {
+    "time_sleep_action": "1",
+    "action": {
+      "item": [
+        {
+          "name": null,
+          "value": "http://testphp.vulnweb.com/",
+          "type": "get_domain",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//a[@href='login.php']",
+          "type": "click",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "test",
+          "locator": "//input[@name=\"uname\"]",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "test",
+          "locator": "//input[@name=\"pass\"]",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//input[@value=\"login\"]",
+          "type": "click",
+          "result": {
+            "type": "title",
+            "value": "user info",
+            "text": "\n\n                    "
+          },
+          "text": "\n\n                "
+        }
+      ],
+      "text": "\n\n            "
+    },
+    "text": "\n\n        "
+  },
+  "test_search": {
+    "time_sleep_action": "1",
+    "action": {
+      "item": [
+        {
+          "name": null,
+          "value": "http://testphp.vulnweb.com/",
+          "type": "get_domain",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//input[@name=\"searchFor\"]",
+          "type": "input",
+          "value": "test",
+          "text": "\n\n                "
+        },
+        {
+          "type": "click",
+          "locator": "//input[@name=\"goButton\"]",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//div[@id=\"content\"]//h2",
+          "type": "click",
+          "result": {
+            "type": "xpath_text",
+            "value": "searched for: test",
+            "xpath": "//div[@id=\"content\"]//h2",
+            "text": "\n\n                    "
+          },
+          "text": "\n\n                "
+        }
+      ],
+      "text": "\n\n            "
+    },
+    "text": "\n\n        "
+  },
+  "test_doppable": {
+    "action": {
+      "item": [
+        {
+          "type": "get_domain",
+          "value": "https://demoqa.com/droppable",
+          "text": "\n\n                "
+        },
+        {
+          "type": "drag_and_drop",
+          "locator": "//*[@id=\"draggable\"]",
+          "locator_2": "//*[@id=\"droppable\"]",
+          "sleep": "5",
+          "text": "\n\n                "
+        }
+      ],
+      "text": "\n\n            "
+    },
+    "text": "\n\n        "
+  },
+  "test_login_2": {
+    "time_sleep_action": "1",
+    "action": {
+      "item": [
+        {
+          "name": null,
+          "value": "https://practicetestautomation.com/",
+          "type": "get_domain",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//*[@id=\"menu-item-20\"]",
+          "type": "click",
+          "text": "\n\n                "
+        },
+        {
+          "type": "click",
+          "locator": "//a[text()='Test Login Page']",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "student",
+          "locator": "//input[@name=\"username\"]",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "Password123",
+          "locator": "//input[@name=\"password\"]",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//button[@id=\"submit\"]",
+          "type": "click",
+          "result": {
+            "type": "title",
+            "value": "Logged In Successfully | Practice Test Automation",
+            "text": "\n\n                    "
+          },
+          "text": "\n\n                "
+        }
+      ],
+      "text": "\n\n            "
+    },
+    "text": "\n\n        "
+  },
+  "test_logout": {
+    "time_sleep_action": "1",
+    "action": {
+      "item": [
+        {
+          "name": null,
+          "value": "https://practicetestautomation.com/",
+          "type": "get_domain",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//*[@id=\"menu-item-20\"]",
+          "type": "click",
+          "text": "\n\n                "
+        },
+        {
+          "type": "click",
+          "locator": "//a[text()='Test Login Page']",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "student",
+          "locator": "//input[@name=\"username\"]",
+          "text": "\n\n                "
+        },
+        {
+          "type": "input",
+          "value": "Password123",
+          "locator": "//input[@name=\"password\"]",
+          "text": "\n\n                "
+        },
+        {
+          "locator": "//button[@id=\"submit\"]",
+          "type": "click",
+          "result": {
+            "type": "title",
+            "value": "Logged In Successfully | Practice Test Automation",
+            "text": "\n\n                    "
+          },
+          "text": "\n\n                "
+        },
+        {
+          "type": "click",
+          "locator": "//a[text()='Log out']",
+          "result": {
+            "type": "url",
+            "value": "https://practicetestautomation.com/practice-test-login/",
+            "text": "\n\n                    "
+          },
+          "text": "\n\n                "
+        }
+      ],
+      "text": "\n\n            "
+    },
+    "text": "\n\n        "
+  },
+  "text": "\n\n    "
+}
