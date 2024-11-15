@@ -9,12 +9,12 @@ from django.http.response import HttpResponseRedirect
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from src.process.process_seo import ProcessSEO
-from src.crawl_video_youtube.process import GetVideoYoutube
-from src.common.common import write_data_video_to_file_csv
-from src.extract_format.process import ExtractFile
-from src.db_connect.base_redis import BaseRedis
 from src.config.config import config_redis
+from src.db_connect.base_redis import BaseRedis
+
+from src.process.process_seo import ProcessSEO
+from src.crawl_video_youtube.common import get_list_video_ytb
+from src.extract_format.process import ExtractFile
 
 
 def index(request):
@@ -50,16 +50,17 @@ def crawl_video_youtube(request):
 
 
 def extract_format(request):
-	context = {}
-	context['message_error'] = ""
+	context = {
+		'message_error': ''
+	}
 	if request.method == 'POST':
 		input_format = request.POST.get('input_format', '')
 		output_format = request.POST.get('output_format', '')
 		file_extract = request.FILES.get('file_extract', None)
+		data = request.POST.get('content_format', '')
 		if file_extract:
 			data = file_extract.read().decode("UTF-8")
-		else:
-			data = request.POST.get('content_format', '')
+
 		try:
 			res = ExtractFile().process_file(data, input_format, output_format)
 			if res:
@@ -67,20 +68,7 @@ def extract_format(request):
 			else:
 				context['message_error'] = "Extract file fail"
 		except Exception as e:
-			print(traceback.format_exc())
+			# print(traceback.format_exc())
 			context['message_error'] = f"Error during format conversion: {str(e)}"
 
 	return render(request, 'extract_format.html', context=context)
-
-
-def get_list_video_ytb(link_channel, number_of_video):
-	try:
-		list_video = GetVideoYoutube().app_run(link_channel, number_of_video=number_of_video)
-		res = write_data_video_to_file_csv(list_video)
-		status = res != 'Error'
-		if not status:
-			print("Error when trying to write to file csv")
-		return list_video, status
-	except Exception as e:
-		print(f"Error fetching or processing videos: {str(e)}")
-		return [], False

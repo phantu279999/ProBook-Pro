@@ -13,7 +13,7 @@ class News(models.Model):
 	sapo = models.CharField(max_length=255)
 	url = models.CharField(max_length=255, blank=True)
 	avatar = models.ImageField(upload_to='avatar_news')
-	date_create = models.DateTimeField(blank=True)
+	date_create = models.DateTimeField(auto_now_add=True)
 	lastmodifield_date = models.DateTimeField(auto_now=True)
 	status = models.BooleanField()
 	is_home = models.BooleanField()
@@ -96,7 +96,7 @@ class Tag(models.Model):
 	name = models.CharField(max_length=255)
 	url = models.CharField(max_length=255, blank=True)
 
-	created_date = models.DateTimeField()
+	created_date = models.DateTimeField(auto_now_add=True)
 	modified_date = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
@@ -138,7 +138,7 @@ class Topic(models.Model):
 	name = models.CharField(max_length=255)
 	url = models.URLField(blank=True)
 
-	created_date = models.DateTimeField()
+	created_date = models.DateTimeField(auto_now_add=True)
 	modified_date = models.DateTimeField(auto_now=True)
 
 	def __str__(self):

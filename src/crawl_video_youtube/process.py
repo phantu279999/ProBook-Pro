@@ -82,17 +82,17 @@ class GetVideoYoutube:
 
 		return videos
 
-	def get_info_video(self, url_video):
-		self._driver.get(url_video)
-		title = self._driver.find_element(
-			"xpath", "//div[@id='title']//yt-formatted-string[@class='style-scope ytd-watch-metadata']").text
-		view = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][1]").text
-		date_create = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][3]").text
-
-		print(title)
-		print(view)
-		print(date_create)
-		print("*" * 100)
+	# def get_info_video(self, url_video):
+	# 	self._driver.get(url_video)
+	# 	title = self._driver.find_element(
+	# 		"xpath", "//div[@id='title']//yt-formatted-string[@class='style-scope ytd-watch-metadata']").text
+	# 	view = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][1]").text
+	# 	date_create = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][3]").text
+	#
+	# 	print(title)
+	# 	print(view)
+	# 	print(date_create)
+	# 	print("*" * 100)
 
 
 if __name__ == '__main__':
