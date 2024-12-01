@@ -15,6 +15,7 @@ from src.db_connect.base_redis import BaseRedis
 from src.process.process_seo import ProcessSEO
 from src.crawl_video_youtube.common import get_list_video_ytb
 from src.extract_format.process import ExtractFile
+from src.common.morse_code import MorseCode
 
 from .forms import MorseCodeForm
 
@@ -77,9 +78,12 @@ def extract_format(request):
 
 
 def morse_code_translator(request):
+	output = ''
 	if request.method == 'POST':
 		form = MorseCodeForm(request.POST)
-		print(request.POST['input'])
+		if form.is_valid():
+			output = MorseCode().to_english(request.POST['input'])
+			form = MorseCodeForm(initial={'output': output})
 	else:
-		form = MorseCodeForm()
+		form = MorseCodeForm(initial={'output': output})
 	return render(request, 'morse_code_translator.html', {'form': form})
