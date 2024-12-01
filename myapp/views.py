@@ -16,6 +16,8 @@ from src.process.process_seo import ProcessSEO
 from src.crawl_video_youtube.common import get_list_video_ytb
 from src.extract_format.process import ExtractFile
 
+from .forms import MorseCodeForm
+
 
 def index(request):
 	if request.method == 'POST':
@@ -72,3 +74,12 @@ def extract_format(request):
 			context['message_error'] = f"Error during format conversion: {str(e)}"
 
 	return render(request, 'extract_format.html', context=context)
+
+
+def morse_code_translator(request):
+	if request.method == 'POST':
+		form = MorseCodeForm(request.POST)
+		print(request.POST['input'])
+	else:
+		form = MorseCodeForm()
+	return render(request, 'morse_code_translator.html', {'form': form})
