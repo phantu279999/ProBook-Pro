@@ -78,12 +78,11 @@ def extract_format(request):
 
 
 def morse_code_translator(request):
-	output = ''
 	if request.method == 'POST':
 		form = MorseCodeForm(request.POST)
 		if form.is_valid():
 			output = MorseCode().to_english(request.POST['input'])
 			form = MorseCodeForm(initial={'output': output})
 	else:
-		form = MorseCodeForm(initial={'output': output})
+		form = MorseCodeForm(initial={'output': ""})
 	return render(request, 'morse_code_translator.html', {'form': form})
