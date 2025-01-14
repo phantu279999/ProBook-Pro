@@ -128,13 +128,7 @@
         <div style="left: 0;top: 0;bottom: 0; width: 7px; background-color: royalblue;">
             <a href="{% url 'video_youtube' %}"><h2 style="margin: 20px;">CRAWL VIDEO YOTUBE</h2></a>
         </div>
-        <div class="row">
-            <form method="post" style="background-color: cornflowerblue; border-radius: 10px; padding: 10px;">
-                {% csrf_token %}
-                <input type="text" placeholder="Enter link channel youtube" name="channel_youtube">
-                <button type="submit">Kiểm tra</button>
-            </form>
-        </div>
+        <a href="{% url 'video_youtube' %}"><button class="btn btn-success">Bắt đầu lấy dữ liệu</button></a>
     </div>
     </div>
 {% endblock %}

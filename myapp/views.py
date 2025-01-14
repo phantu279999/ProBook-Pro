@@ -4,8 +4,6 @@ import sys
 import traceback
 
 from django.shortcuts import render
-from django.urls import reverse
-from django.http.response import HttpResponseRedirect
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -22,30 +20,24 @@ from .forms import MorseCodeForm
 
 def index(request):
 	if request.method == 'POST':
-		if 'your_domain' in request.POST:
-			your_domain = request.POST['your_domain']
-			res = ProcessSEO().process_single_link(your_domain)
-			return render(request, 'index.html', context={'res': res})
-
-		elif 'channel_youtube' in request.POST:
-			channel_ytb = request.POST['channel_youtube']
-			redirect_url = f"{reverse('video_youtube')}?channel_ytb={channel_ytb}"
-			return HttpResponseRedirect(redirect_url)
+		your_domain = request.POST['your_domain']
+		res = ProcessSEO().process_single_link(your_domain)
+		return render(request, 'index.html', context={'res': res})
 
 	return render(request, 'index.html')
 
 
 def crawl_video_youtube(request):
 	context = {}
-	channel_ytb = request.POST.get('domain_channel') or request.GET.get('channel_ytb')
-	number_of_videos = request.POST['number_of_video'] if 'number_of_video' in request.POST else 90
+	if request.method == 'POST':
+		channel_ytb = request.POST.get('domain_channel', '')
+		number_of_videos = request.POST.get('number_of_video', 90)
 
-	if channel_ytb:
 		list_video, status = get_list_video_ytb(channel_ytb, int(number_of_videos))
 		context = {
 			'list_video': list_video,
 			'status': status,
-			'length': len(list_video),
+			'length': len(list_video)
 		}
 		BaseRedis(config_redis).set_hash("VideoChannelYoutube", channel_ytb, json.dumps(list_video))
 
@@ -77,7 +69,7 @@ def extract_format(request):
 	return render(request, 'extract_format.html', context=context)
 
 
-def morse_code_translator(request):
+def morse_code_translator_view(request):
 	if request.method == 'POST':
 		form = MorseCodeForm(request.POST)
 		if form.is_valid():
