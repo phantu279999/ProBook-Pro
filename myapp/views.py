@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-import traceback
 
 from django.shortcuts import render
 
@@ -62,9 +61,8 @@ def extract_format(request):
 				context['message_error'] = "Extract file success"
 			else:
 				context['message_error'] = "Extract file fail"
-		except Exception as e:
-			# print(traceback.format_exc())
-			context['message_error'] = f"Error during format conversion: {str(e)}"
+		except Exception as ex:
+			context['message_error'] = f"Error during format conversion: {str(ex)}"
 
 	return render(request, 'extract_format.html', context=context)
 
@@ -73,8 +71,8 @@ def morse_code_translator_view(request):
 	if request.method == 'POST':
 		form = MorseCodeForm(request.POST)
 		if form.is_valid():
-			output = MorseCode().to_english(request.POST['input'])
-			form = MorseCodeForm(initial={'output': output})
+			output = MorseCode().to_english(request.POST['morse_code'])
+			form = MorseCodeForm(initial={'text': output})
 	else:
-		form = MorseCodeForm(initial={'output': ""})
+		form = MorseCodeForm(initial={'text': ""})
 	return render(request, 'morse_code_translator.html', {'form': form})
