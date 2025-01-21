@@ -8,6 +8,7 @@ urlpatterns = [
 	path('news/', include('news.urls')),
 	path('accounts/', include('accounts.urls')),
 	path('admin/', admin.site.urls),
+	path('api/v1/', include('news.api.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
