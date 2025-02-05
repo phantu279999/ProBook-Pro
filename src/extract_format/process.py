@@ -5,11 +5,9 @@ import traceback
 from xml.etree import ElementTree as ET
 
 
+TYPE_INPUT = {'json', 'xml'}
+
 class ExtractFile:
-
-	def __init__(self):
-		...
-
 	def json_to_xml(self, json_file_path, root_tag="data"):
 		with open(json_file_path, 'r') as json_file:
 			data = json.load(json_file)
@@ -62,56 +60,19 @@ class ExtractFile:
 
 		return children
 
-	# def extract_xml_to_json(self, text_xml):
-	# 	try:
-	# 		path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-	# 		xml_file = path + "/media/store_data/output.xml"
-	# 		with open("media/store_data/input.json", "w") as f:
-	# 			f.write(text_xml)
-	#
-	# 		json_data = self.xml_to_json(xml_file)
-	#
-	# 		# Print or save the JSON data
-	# 		print(json_data)
-	#
-	# 		# You can also save it to a file
-	# 		with open("media/store_data/output.json", "w") as f:
-	# 			f.write(json_data)
-	# 		return True
-	# 	except:
-	# 		print(traceback.format_exc())
-	# 		return False
-	#
-	# def extract_json_to_xml(self, text_json):
-	# 	try:
-	# 		# Example usage
-	# 		with open("media/store_data/input.json", "w") as f:
-	# 			f.write(text_json)
-	# 		json_file = "media/store_data/input.json"
-	# 		xml_data = self.json_to_xml(json_file)
-	#
-	# 		# You can also save it to a file
-	# 		with open("media/store_data/output.xml", "wb") as f:
-	# 			f.write(xml_data)
-	# 		return True
-	# 	except:
-	# 		print(traceback.format_exc())
-	# 		return False
-
 	def process_file(self, data, type_input, type_output):
+		if type_input not in TYPE_INPUT:
+			return False
+
+		file_path = ''
 		if type_input == 'json':
 			file_path = "media/store_data/input.json"
-			with open(file_path, "w") as f:
-				f.write(data)
-			self.process_output(file_path, type_input, type_output, data)
-			return True
 		elif type_input == 'xml':
 			file_path = "media/store_data/input.xml"
-			with open(file_path, "w") as f:
-				f.write(data)
-			self.process_output(file_path, type_input, type_output, data)
-			return True
-		return False
+		with open(file_path, "w") as f:
+			f.write(data)
+		self.process_output(file_path, type_input, type_output, data)
+		return True
 
 	def process_output(self, file_path, type_input, type_output, data):
 		if type_output == 'json':

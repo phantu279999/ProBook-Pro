@@ -1,6 +1,7 @@
 <data>
     <run>
         <item>test_logout</item>
+        <item>TEST_EVERYTHING</item>
     </run>
     <test_login>
         <time_sleep_action>1</time_sleep_action>
