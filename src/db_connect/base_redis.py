@@ -1,6 +1,7 @@
 import json
 
 import redis
+from redis.commands.json.path import Path
 
 from src.config.config import config_redis
 
@@ -132,6 +133,13 @@ class BaseRedis:
 	def is_exits_hash(self, key, fields):
 		return self._db.hexists(key, fields)
 
+	# =============== JSON ================
+	def get_json(self, key: str):
+		return self._db.json().get(key)
+
+	def set_json(self, key: str, data: dict):
+		return self._db.json().set(key, Path.root_path(), data)
+
 
 class RedisQueue:
 	def __init__(self, name, sub_name="queue", config_db=None):
@@ -155,8 +163,12 @@ class RedisQueue:
 
 
 if __name__ == '__main__':
-	rd = BaseRedis(config_redis)
-
-	for k, v in rd.get_all_hash("VideoChannelYoutube").items():
-		for it in (json.loads(v.decode("UTF-8"))):
-			print(it)
+	rd = BaseRedis({
+		"host": "redis-12881.c13.us-east-1-3.ec2.redns.redis-cloud.com",
+		"port": 12881,
+		"db": 0,
+		"username": "default",
+		"password": ""
+	})
+	print(rd.get_json('mysample:1'))
+	# print(rd.set_json('mysample:1', {'name': "Phan Anh Tu"}))
