@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import json
 import pandas as pd
 import unicodedata
 import datetime
@@ -9,6 +10,9 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 link_file = path + r'/media/store_data/video_youtube.csv'
+
+from src.config.config import config_redis
+from src.db_connect.base_redis import BaseRedis
 
 
 def normalize_vietnamese(text):
@@ -98,6 +102,10 @@ def check_password(password, password_2):
 		print("islower")
 		return False
 	return True
+
+
+def save_data_to_redis(key, channel_ytb, datas):
+	return BaseRedis(config_redis).set_hash(key, channel_ytb, json.dumps(datas))
 
 
 if __name__ == '__main__':

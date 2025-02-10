@@ -1,28 +1,41 @@
 {% extends 'base.html' %}
 
 
+{% block style %}
+    textarea {
+    width: 100%
+    }
+    .note {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding:  10px;
+    }
+{% endblock %}
+
 {% block title %}
     Morse Code Translator
 {% endblock %}
 
 
 {% block content %}
-    <h1>Morse Code Translator</h1>
-    <div class="row">
-        <div class="col">
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Translator</button>
-            </form>
-        </div>
-        <div class="col">
-            Note:
-            <ul>
-                <li>
-                    <p>.... . ._.. ._.. ___ / .__ ___ ._. ._.. _..</p>
-                </li>
-            </ul>
+    <div class="container">
+        <h1>Morse Code Translator</h1>
+        <div class="row">
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Translator</button>
+                </form>
+            </div>
+            <div class="col note">
+                Note:
+                <ul>
+                    <li>
+                        <p>.... . ._.. ._.. ___ / .__ ___ ._. ._.. _..</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

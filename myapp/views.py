@@ -1,26 +1,30 @@
-import json
 import os
 import sys
 
 from django.shortcuts import render
+from django.http import HttpResponseBadRequest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from src.config.config import config_redis
-from src.db_connect.base_redis import BaseRedis
 
 from src.process.process_seo import ProcessSEO
 from src.crawl_video_youtube.common import get_list_video_ytb
 from src.extract_format.process import ExtractFile
 from src.common.morse_code import MorseCode
+from src.common.common import save_data_to_redis
 
 from .forms import MorseCodeForm
 
 
 def index(request):
 	if request.method == 'POST':
-		your_domain = request.POST['your_domain']
-		res = ProcessSEO().process_single_link(your_domain)
+		your_domain = request.POST.get('your_domain', '').strip()
+		if not your_domain:
+			return HttpResponseBadRequest("Domain is required.")
+
+		try:
+			res = ProcessSEO().process_single_link(your_domain)
+		except Exception as e:
+			return HttpResponseBadRequest(f"Error processing the domain: {e}")
 		return render(request, 'index.html', context={'res': res})
 
 	return render(request, 'index.html')
@@ -38,7 +42,8 @@ def crawl_video_youtube(request):
 			'status': status,
 			'length': len(list_video)
 		}
-		BaseRedis(config_redis).set_hash("VideoChannelYoutube", channel_ytb, json.dumps(list_video))
+		save_data_to_redis("VideoChannelYoutube", channel_ytb, list_video)
+
 
 	return render(request, 'video_youtube.html', context=context)
 
