@@ -1,10 +1,10 @@
-function toggleExpand(val_name) {
-    var box = document.getElementById(`textBox-${val_name}`);
-    console.log(`textBox-${val_name}`);
-    console.log(window.getComputedStyle(box).maxHeight);
-    if (window.getComputedStyle(box).maxHeight !== '96px') {
+function toggleExpand(valName) {
+    const box = document.getElementById(`textBox-${valName}`);
+    const currentMaxHeight = box.style.maxHeight || window.getComputedStyle(box).maxHeight;
+
+    if (currentMaxHeight !== '96px') {
         box.style.maxHeight = '96px';
     } else {
-        box.style.maxHeight = box.scrollHeight + 'px';
+        box.style.maxHeight = `${box.scrollHeight}px`;
     }
 }
