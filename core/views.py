@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from src.process.process_seo import ProcessSEO
+from src.seo.analyzer.base import BaseSEO
 from src.crawl_video_youtube.common import get_list_video_ytb
 from src.extract_format.process import ExtractFile
 from src.common.morse_code import MorseCode
@@ -22,7 +22,7 @@ def index(request):
 			return HttpResponseBadRequest("Domain is required.")
 
 		try:
-			res = ProcessSEO().process_single_link(your_domain)
+			res = BaseSEO().process_link(your_domain)
 		except Exception as e:
 			return HttpResponseBadRequest(f"Error processing the domain: {e}")
 		return render(request, 'index.html', context={'res': res})
@@ -43,7 +43,6 @@ def crawl_video_youtube(request):
 			'length': len(list_video)
 		}
 		save_data_to_redis("VideoChannelYoutube", channel_ytb, list_video)
-
 
 	return render(request, 'video_youtube.html', context=context)
 
