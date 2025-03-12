@@ -1,8 +1,12 @@
 import os
 import sys
 import time
+from typing import List, Dict
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -11,93 +15,76 @@ from src.crawl_video_youtube.config import config_xpath
 
 
 class GetVideoYoutube:
+    """A class to scrape YouTube videos from a given channel."""
 
-	def __init__(self):
-		self._driver = custome_chrome_headless()
-		self.domain_youtube = "https://www.youtube.com"
-		self.number_scroll = {
-			1: 90,
-			2: 120,
-			3: 150,
-			4: 180,
-			5: 210,
-		}
+    YOUTUBE_DOMAIN = "https://www.youtube.com"
 
-	def app_run(self, domain, number_of_video=90):
-		if not domain.endswith('videos'):
-			domain = domain.strip("/") + '/videos'
-		self.get_channel(domain)
-		self.scroll_to_end_page(number_of_video)
-		list_video = self.get_video(number_of_video)
-		self._driver.close()
-		return list_video
+    def __init__(self):
+        self._driver = custome_chrome_headless()
 
-	def get_channel(self, domain):
-		self._driver.get(domain)
+    def app_run(self, channel_url: str, number_of_videos: int = 90) -> List[Dict[str, str]]:
+        """Main function to get video details from a YouTube channel."""
+        if not channel_url.endswith("/videos"):
+            channel_url = channel_url.rstrip("/") + "/videos"
 
-	@staticmethod
-	def get_time_scroll(number_of_video):
-		if number_of_video <= 90:
-			return 1
-		else:
-			return (number_of_video - 30) // 30
+        self._driver.get(channel_url)
+        self._scroll_to_end_page(number_of_videos)
+        videos = self._extract_videos(number_of_videos)
+        self._driver.quit()
+        return videos
 
-	def scroll_to_end_page(self, number_of_video):
-		base_source = ""
-		source_code = self._driver.page_source
-		c = 0
-		time_sroll = self.get_time_scroll(number_of_video)
-		while len(base_source) != len(source_code):
-			base_source = source_code
-			self._driver.find_element("tag name", "body").send_keys(Keys.END)
-			time.sleep(1)
-			source_code = self._driver.page_source
-			c += 1
-			if c > time_sroll:
-				break
+    def _scroll_to_end_page(self, number_of_videos: int) -> None:
+        """Scrolls the YouTube page to load more videos."""
+        previous_length = 0
+        attempts = 0
+        max_attempts = (number_of_videos - 30) // 30 if number_of_videos > 90 else 1
 
-	def get_video(self, number_of_video):
-		videos = []
-		body_video = self._driver.find_element("xpath", config_xpath['body_video']['value'])
-		html = body_video.get_attribute("innerHTML")
-		soup = BeautifulSoup(html, "html.parser")
-		list_video = soup.find_all("div", attrs={'id': config_xpath['object_video']['value']})
-		for video in list_video:
-			object_video = video.find("a", attrs={"id": "video-title-link"})
-			thumb = video.find('a', attrs={'id': "thumbnail"}).findNext('yt-image').findNext('img')
-			title = object_video["title"]
-			url_ytb = self.domain_youtube + object_video["href"]
-			meta_data = video.find_all('span', attrs={'class': config_xpath['view_date']['value']})
-			views, date = meta_data[0], meta_data[1]
+        while attempts < max_attempts:
+            self._driver.find_element(By.TAG_NAME, "body").send_keys(Keys.END)
+            time.sleep(1.5)
 
-			videos.append({
-				"TitleVideo": title,
-				"Link": url_ytb,
-				"View": views.getText(),
-				"Date": date.getText(),
-				"Thumb": thumb.get("src", ""),
-			})
-			if len(videos) >= number_of_video:
-				break
+            page_length = len(self._driver.page_source)
+            if page_length == previous_length:
+                break  # Stop scrolling if no new content is loaded
 
-		return videos
+            previous_length = page_length
+            attempts += 1
 
-	# def get_info_video(self, url_video):
-	# 	self._driver.get(url_video)
-	# 	title = self._driver.find_element(
-	# 		"xpath", "//div[@id='title']//yt-formatted-string[@class='style-scope ytd-watch-metadata']").text
-	# 	view = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][1]").text
-	# 	date_create = self._driver.find_element("xpath", "//span[@class='style-scope yt-formatted-string bold'][3]").text
-	#
-	# 	print(title)
-	# 	print(view)
-	# 	print(date_create)
-	# 	print("*" * 100)
+    def _extract_videos(self, number_of_videos: int) -> List[Dict[str, str]]:
+        """Extracts video details from the YouTube channel page."""
+        videos = []
+        try:
+            body_video = WebDriverWait(self._driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, config_xpath["body_video"]["value"]))
+            )
+            soup = BeautifulSoup(body_video.get_attribute("innerHTML"), "html.parser")
+            video_elements = soup.find_all("div", attrs={"id": config_xpath["object_video"]["value"]})
+
+            for video in video_elements:
+                title_element = video.find("a", attrs={"id": "video-title-link"})
+                thumbnail_element = video.find("a", attrs={"id": "thumbnail"}).findNext("yt-image").findNext("img")
+                meta_data = video.find_all("span", attrs={"class": config_xpath["view_date"]["value"]})
+
+                if not title_element or len(meta_data) < 2:
+                    continue  # Skip if essential data is missing
+
+                videos.append({
+                    "TitleVideo": title_element.get("title", ""),
+                    "Link": f"{self.YOUTUBE_DOMAIN}{title_element.get('href', '')}",
+                    "View": meta_data[0].get_text(strip=True),
+                    "Date": meta_data[1].get_text(strip=True),
+                    "Thumb": thumbnail_element.get("src", ""),
+                })
+
+                if len(videos) >= number_of_videos:
+                    break
+        except Exception as e:
+            print(f"Error extracting videos: {e}")
+
+        return videos
 
 
-if __name__ == '__main__':
-	app_run = GetVideoYoutube()
-	list_video = app_run.app_run("https://www.youtube.com/@SofMM/videos")
-	print(list_video)
-	# from src.common.common import write_data_video_to_file_csv
-	# write_data_video_to_file_csv(list_video)
+if __name__ == "__main__":
+    scraper = GetVideoYoutube()
+    video_list = scraper.app_run("https://www.youtube.com/@SofMM/videos")
+    print(video_list)

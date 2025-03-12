@@ -4,7 +4,7 @@ from src.common.common import write_data_video_to_file_csv
 
 def get_list_video_ytb(link_channel, number_of_video):
 	try:
-		list_video = GetVideoYoutube().app_run(link_channel, number_of_video=number_of_video)
+		list_video = GetVideoYoutube().app_run(channel_url=link_channel, number_of_videos=number_of_video)
 		res = write_data_video_to_file_csv(list_video)
 		status = res != 'Error'
 		if not status:
